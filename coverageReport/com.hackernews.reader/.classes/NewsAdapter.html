@@ -1,0 +1,259 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: NewsAdapter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hackernews.reader</a> ]
+</div>
+
+<h1>Coverage Summary for Class: NewsAdapter (com.hackernews.reader)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NewsAdapter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 34)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">NewsAdapter$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">NewsAdapter$ViewHolder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 45)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hackernews.reader;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.content.Context;
+<i>4</i>&nbsp;import android.support.v7.widget.RecyclerView;
+<i>5</i>&nbsp;import android.view.LayoutInflater;
+<i>6</i>&nbsp;import android.view.View;
+<i>7</i>&nbsp;import android.view.ViewGroup;
+<i>8</i>&nbsp;import android.widget.TextView;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import com.hackernews.reader.util.Util;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * Created by HJ Chin on 10/11/2017.
+<i>17</i>&nbsp; */
+<i>18</i>&nbsp;
+<b class="nc"><i>19</i>&nbsp;public class NewsAdapter extends RecyclerView.Adapter&lt;NewsAdapter.ViewHolder&gt; {</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    public NewsItem getItemAt(int i) {
+<b class="nc"><i>22</i>&nbsp;        return data.get(i);</b>
+<i>23</i>&nbsp;    }
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    static class ViewHolder extends RecyclerView.ViewHolder{
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;        final TextView no;
+<i>28</i>&nbsp;        final TextView title;
+<i>29</i>&nbsp;        final TextView source;
+<i>30</i>&nbsp;        final TextView point;
+<i>31</i>&nbsp;        final TextView author;
+<i>32</i>&nbsp;        final TextView time;
+<i>33</i>&nbsp;        final TextView comment;
+<i>34</i>&nbsp;        final View itemView;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;        ViewHolder(View itemView) {
+<b class="nc"><i>37</i>&nbsp;            super(itemView);</b>
+<i>38</i>&nbsp;
+<b class="nc"><i>39</i>&nbsp;            no = (TextView)itemView.findViewById(R.id.no);</b>
+<b class="nc"><i>40</i>&nbsp;            title = (TextView)itemView.findViewById(R.id.title);</b>
+<b class="nc"><i>41</i>&nbsp;            source = (TextView)itemView.findViewById(R.id.source);</b>
+<b class="nc"><i>42</i>&nbsp;            point = (TextView)itemView.findViewById(R.id.point);</b>
+<b class="nc"><i>43</i>&nbsp;            author = (TextView)itemView.findViewById(R.id.author);</b>
+<b class="nc"><i>44</i>&nbsp;            time = (TextView)itemView.findViewById(R.id.time);</b>
+<b class="nc"><i>45</i>&nbsp;            comment = (TextView)itemView.findViewById(R.id.comment);</b>
+<b class="nc"><i>46</i>&nbsp;            this.itemView = itemView;</b>
+<i>47</i>&nbsp;        }
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    private final ArrayList&lt;NewsItem&gt; data;
+<i>51</i>&nbsp;    private final Callback callback;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    interface Callback{
+<i>54</i>&nbsp;        void onItemClick(int position);
+<i>55</i>&nbsp;        void requestNews(int position);
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;    NewsAdapter(Context context, ArrayList&lt;NewsItem&gt; data, Callback callback){</b>
+<b class="nc"><i>59</i>&nbsp;        Context context1 = context;</b>
+<b class="nc"><i>60</i>&nbsp;        this.data = data;</b>
+<b class="nc"><i>61</i>&nbsp;        this.callback = callback;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Override
+<i>65</i>&nbsp;    public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+<b class="nc"><i>66</i>&nbsp;        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);</b>
+<b class="nc"><i>67</i>&nbsp;        return new ViewHolder(v);</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    @Override
+<i>71</i>&nbsp;    public void onBindViewHolder(final NewsAdapter.ViewHolder holder, int position) {
+<i>72</i>&nbsp;
+<b class="nc"><i>73</i>&nbsp;        NewsItem newsItem = data.get(position);</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        if(newsItem.title == null){</b>
+<b class="nc"><i>76</i>&nbsp;            callback.requestNews(position);</b>
+<i>77</i>&nbsp;            return;
+<i>78</i>&nbsp;        }
+<i>79</i>&nbsp;
+<b class="nc"><i>80</i>&nbsp;        holder.no.setText(String.valueOf(position+1)+&quot;.&quot;);</b>
+<b class="nc"><i>81</i>&nbsp;        holder.title.setText(newsItem.title);</b>
+<i>82</i>&nbsp;
+<b class="nc"><i>83</i>&nbsp;        String host = getHostName(newsItem.url);</b>
+<b class="nc"><i>84</i>&nbsp;        if(host.equals(&quot;&quot;)){</b>
+<b class="nc"><i>85</i>&nbsp;            holder.source.setVisibility(View.GONE);</b>
+<i>86</i>&nbsp;        }else{
+<b class="nc"><i>87</i>&nbsp;            holder.source.setVisibility(View.VISIBLE);</b>
+<b class="nc"><i>88</i>&nbsp;            holder.source.setText(&quot; (&quot;+host+&quot;)&quot;);</b>
+<i>89</i>&nbsp;        }
+<i>90</i>&nbsp;
+<b class="nc"><i>91</i>&nbsp;        String points = &quot;point&quot;;</b>
+<b class="nc"><i>92</i>&nbsp;        if(newsItem.score &gt; 1){</b>
+<b class="nc"><i>93</i>&nbsp;            points += &quot;s&quot;;</b>
+<i>94</i>&nbsp;        }
+<i>95</i>&nbsp;
+<b class="nc"><i>96</i>&nbsp;        holder.point.setText(newsItem.score+&quot; &quot;+points);</b>
+<b class="nc"><i>97</i>&nbsp;        holder.author.setText(&quot; by &quot;+newsItem.by);</b>
+<i>98</i>&nbsp;
+<b class="nc"><i>99</i>&nbsp;        CharSequence value = Util.getPrettyTime(newsItem.time);</b>
+<b class="nc"><i>100</i>&nbsp;        holder.time.setText(&quot; &quot;+value);</b>
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;        String comments;
+<b class="nc"><i>103</i>&nbsp;        if(newsItem.kids == null){</b>
+<b class="nc"><i>104</i>&nbsp;            comments = &quot;0 comment&quot;;</b>
+<b class="nc"><i>105</i>&nbsp;        }else if(newsItem.kids.length &gt;1){</b>
+<b class="nc"><i>106</i>&nbsp;            comments = newsItem.kids.length + &quot; comments&quot;;</b>
+<i>107</i>&nbsp;        }else{
+<b class="nc"><i>108</i>&nbsp;            comments = newsItem.kids.length + &quot; comment&quot;;</b>
+<i>109</i>&nbsp;        }
+<i>110</i>&nbsp;
+<b class="nc"><i>111</i>&nbsp;        holder.comment.setText(&quot; | &quot;+comments);</b>
+<i>112</i>&nbsp;
+<b class="nc"><i>113</i>&nbsp;        holder.itemView.setOnClickListener(new View.OnClickListener(){</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;            @Override
+<i>116</i>&nbsp;            public void onClick(View view) {
+<b class="nc"><i>117</i>&nbsp;                callback.onItemClick(holder.getAdapterPosition());</b>
+<i>118</i>&nbsp;            }
+<i>119</i>&nbsp;        });
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    @Override
+<i>123</i>&nbsp;    public int getItemCount() {
+<b class="nc"><i>124</i>&nbsp;        return data.size();</b>
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    private static String getHostName(String url) {
+<b class="nc"><i>129</i>&nbsp;        return Util.getHostname(url);</b>
+<i>130</i>&nbsp;    }
+<i>131</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2017-11-20 18:39</div>
+</div>
+</body>
+</html>

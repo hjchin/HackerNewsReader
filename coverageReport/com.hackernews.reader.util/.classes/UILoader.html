@@ -1,0 +1,190 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UILoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hackernews.reader.util</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UILoader (com.hackernews.reader.util)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UILoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 31)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">UILoader$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 36)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hackernews.reader.util;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.content.Context;
+<i>4</i>&nbsp;import android.util.Log;
+<i>5</i>&nbsp;import android.view.View;
+<i>6</i>&nbsp;import android.widget.Button;
+<i>7</i>&nbsp;import android.widget.TextView;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import com.hackernews.reader.R;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * Created by HJ Chin on 10/11/2017.
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;
+<b class="nc"><i>15</i>&nbsp;public class UILoader {</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    private final View loaderView;
+<i>18</i>&nbsp;    private final View contentView;
+<i>19</i>&nbsp;    private final int animationDuration;
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;    public UILoader(Context context, View loaderView, View contentView){</b>
+<b class="nc"><i>22</i>&nbsp;        this.loaderView = loaderView;</b>
+<b class="nc"><i>23</i>&nbsp;        this.contentView = contentView;</b>
+<i>24</i>&nbsp;
+<b class="nc"><i>25</i>&nbsp;        animationDuration = context.getResources()</b>
+<b class="nc"><i>26</i>&nbsp;                .getInteger(android.R.integer.config_shortAnimTime);</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public void showLoader(){
+<b class="nc"><i>30</i>&nbsp;        loaderView.setVisibility(View.VISIBLE);</b>
+<b class="nc"><i>31</i>&nbsp;        loaderView.setAlpha(1f);</b>
+<b class="nc"><i>32</i>&nbsp;        contentView.setAlpha(0f);</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    private void hideLoadError(){
+<b class="nc"><i>36</i>&nbsp;        contentView.setVisibility(View.VISIBLE);</b>
+<b class="nc"><i>37</i>&nbsp;        loaderView.findViewById(R.id.loading_spinner).setAlpha(1f);</b>
+<b class="nc"><i>38</i>&nbsp;        loaderView.findViewById(R.id.loading_error_container).setAlpha(0f);</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    public void showLoadError(String message, final View.OnClickListener listener){
+<b class="nc"><i>42</i>&nbsp;        Log.i(AppLog.LOG_TAG,&quot;show load error&quot;);</b>
+<i>43</i>&nbsp;
+<b class="nc"><i>44</i>&nbsp;        loaderView.setVisibility(View.VISIBLE);</b>
+<b class="nc"><i>45</i>&nbsp;        loaderView.setAlpha(1f);</b>
+<b class="nc"><i>46</i>&nbsp;        contentView.setVisibility(View.INVISIBLE);</b>
+<i>47</i>&nbsp;
+<b class="nc"><i>48</i>&nbsp;        loaderView.findViewById(R.id.loading_spinner).setAlpha(0f);</b>
+<i>49</i>&nbsp;
+<b class="nc"><i>50</i>&nbsp;        loaderView</b>
+<b class="nc"><i>51</i>&nbsp;            .findViewById(R.id.loading_error_container)</b>
+<b class="nc"><i>52</i>&nbsp;            .setAlpha(0f);</b>
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;        loaderView</b>
+<b class="nc"><i>55</i>&nbsp;            .findViewById(R.id.loading_error_container)</b>
+<b class="nc"><i>56</i>&nbsp;            .setVisibility(View.VISIBLE);</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        loaderView.findViewById(R.id.loading_error_container).setAlpha(1f);</b>
+<i>59</i>&nbsp;
+<b class="nc"><i>60</i>&nbsp;        TextView errorView = (TextView)loaderView.findViewById(R.id.loading_error_container).findViewById(R.id.error_message);</b>
+<b class="nc"><i>61</i>&nbsp;        errorView.setText(message);</b>
+<b class="nc"><i>62</i>&nbsp;        final Button retryButton = (Button)loaderView.findViewById(R.id.retry_button);</b>
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;        retryButton.setOnClickListener(new View.OnClickListener(){</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;            @Override
+<i>67</i>&nbsp;            public void onClick(View v) {
+<b class="nc"><i>68</i>&nbsp;                Log.i(AppLog.LOG_TAG,&quot;retry button is clicked&quot;);</b>
+<b class="nc"><i>69</i>&nbsp;                hideLoadError();</b>
+<b class="nc"><i>70</i>&nbsp;                showLoader();</b>
+<b class="nc"><i>71</i>&nbsp;                listener.onClick(retryButton);</b>
+<i>72</i>&nbsp;            }
+<i>73</i>&nbsp;        });
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    public void showContent(){
+<b class="nc"><i>77</i>&nbsp;        loaderView.setAlpha(0f);</b>
+<b class="nc"><i>78</i>&nbsp;        contentView.setAlpha(1f);</b>
+<b class="nc"><i>79</i>&nbsp;        loaderView.setVisibility(View.GONE);</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2017-11-20 18:39</div>
+</div>
+</body>
+</html>

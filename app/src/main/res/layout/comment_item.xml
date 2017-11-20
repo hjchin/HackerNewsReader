@@ -50,7 +50,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_drop_up_black_24px" />
+        app:srcCompat="@drawable/ic_arrow_drop_up_black_24px"
+        android:contentDescription="image" />
 
     <TextView
         android:id="@+id/kid"

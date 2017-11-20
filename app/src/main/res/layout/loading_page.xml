@@ -6,7 +6,7 @@
     android:layout_gravity="center"
     android:id="@+id/loading_container">
 
-    <com.propertygurutest.hackernewsreader.util.TestableIndeterminateProgressBar
+    <com.hackernews.reader.util.TestableIndeterminateProgressBar
         android:id="@+id/loading_spinner"
         style="?android:progressBarStyle"
         android:layout_width="wrap_content"

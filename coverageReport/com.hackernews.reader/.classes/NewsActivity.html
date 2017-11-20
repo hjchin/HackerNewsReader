@@ -1,0 +1,422 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: NewsActivity</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hackernews.reader</a> ]
+</div>
+
+<h1>Coverage Summary for Class: NewsActivity (com.hackernews.reader)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NewsActivity</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 56)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">NewsActivity$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">NewsActivity$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">NewsActivity$2$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">NewsActivity$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">NewsActivity$4</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">NewsActivity$4$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 79)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hackernews.reader;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.content.Intent;
+<i>4</i>&nbsp;import android.support.annotation.NonNull;
+<i>5</i>&nbsp;import android.support.annotation.Nullable;
+<i>6</i>&nbsp;import android.support.annotation.VisibleForTesting;
+<i>7</i>&nbsp;import android.support.test.espresso.idling.CountingIdlingResource;
+<i>8</i>&nbsp;import android.support.v4.widget.SwipeRefreshLayout;
+<i>9</i>&nbsp;import android.support.v7.app.AppCompatActivity;
+<i>10</i>&nbsp;import android.os.Bundle;
+<i>11</i>&nbsp;import android.support.v7.widget.LinearLayoutManager;
+<i>12</i>&nbsp;import android.support.v7.widget.RecyclerView;
+<i>13</i>&nbsp;import android.util.Log;
+<i>14</i>&nbsp;import android.view.View;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import com.android.volley.DefaultRetryPolicy;
+<i>17</i>&nbsp;import com.android.volley.Request;
+<i>18</i>&nbsp;import com.android.volley.RequestQueue;
+<i>19</i>&nbsp;import com.android.volley.Response;
+<i>20</i>&nbsp;import com.android.volley.VolleyError;
+<i>21</i>&nbsp;import com.android.volley.toolbox.JsonArrayRequest;
+<i>22</i>&nbsp;import com.android.volley.toolbox.Volley;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;import org.json.JSONArray;
+<i>25</i>&nbsp;import org.json.JSONException;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;import java.util.ArrayList;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;import com.hackernews.reader.util.AppLog;
+<i>30</i>&nbsp;import com.hackernews.reader.util.UILoader;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;
+<b class="nc"><i>33</i>&nbsp;public class NewsActivity extends AppCompatActivity implements</b>
+<i>34</i>&nbsp;        NewsAdapter.Callback,
+<i>35</i>&nbsp;        SwipeRefreshLayout.OnRefreshListener{
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    private static final String NEWS_ITEM = &quot;newsItem&quot;;
+<i>38</i>&nbsp;    private UILoader UILoader;
+<i>39</i>&nbsp;    private RecyclerView recyclerView;
+<i>40</i>&nbsp;    private NewsAdapter newsAdapter;
+<b class="nc"><i>41</i>&nbsp;    private ArrayList&lt;NewsItem&gt; newsItems = new ArrayList&lt;&gt;();</b>
+<i>42</i>&nbsp;    private View loaderView;
+<i>43</i>&nbsp;    private SwipeRefreshLayout swipeRefresh;
+<i>44</i>&nbsp;
+<b class="nc"><i>45</i>&nbsp;    @Nullable</b>
+<i>46</i>&nbsp;    private final CountingIdlingResource idlingResource = new CountingIdlingResource(&quot;countingIdleResource&quot;);
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    @Override
+<i>49</i>&nbsp;    protected void onCreate(Bundle savedInstanceState) {
+<b class="nc"><i>50</i>&nbsp;        super.onCreate(savedInstanceState);</b>
+<b class="nc"><i>51</i>&nbsp;        setContentView(R.layout.activity_news);</b>
+<b class="nc"><i>52</i>&nbsp;        loaderView = findViewById(R.id.loading_container);</b>
+<b class="nc"><i>53</i>&nbsp;        recyclerView = (RecyclerView)findViewById(R.id.news);</b>
+<b class="nc"><i>54</i>&nbsp;        recyclerView.setLayoutManager(new LinearLayoutManager(this));</b>
+<b class="nc"><i>55</i>&nbsp;        swipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh);</b>
+<b class="nc"><i>56</i>&nbsp;        swipeRefresh.setOnRefreshListener(this);</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        UILoader = new UILoader(this, loaderView, recyclerView);</b>
+<i>59</i>&nbsp;
+<b class="nc"><i>60</i>&nbsp;        if(savedInstanceState == null){</b>
+<b class="nc"><i>61</i>&nbsp;            UILoader.showLoader();</b>
+<b class="nc"><i>62</i>&nbsp;            requestNews();</b>
+<i>63</i>&nbsp;        }else{
+<b class="nc"><i>64</i>&nbsp;            UILoader.showContent();</b>
+<b class="nc"><i>65</i>&nbsp;            newsItems = savedInstanceState.getParcelableArrayList(NEWS_ITEM);</b>
+<b class="nc"><i>66</i>&nbsp;            setupAdapter();</b>
+<i>67</i>&nbsp;        }
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    @Override
+<i>71</i>&nbsp;    protected void onSaveInstanceState(Bundle outState) {
+<b class="nc"><i>72</i>&nbsp;        super.onSaveInstanceState(outState);</b>
+<b class="nc"><i>73</i>&nbsp;        outState.putParcelableArrayList(NEWS_ITEM,newsItems);</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    private void requestNews() {
+<i>77</i>&nbsp;
+<b class="nc"><i>78</i>&nbsp;        idlingResource.increment();</b>
+<i>79</i>&nbsp;
+<b class="nc"><i>80</i>&nbsp;        RequestQueue queue = Volley.newRequestQueue(this);</b>
+<b class="nc"><i>81</i>&nbsp;        String url = &quot;https://hacker-news.firebaseio.com/v0/topstories.json&quot;;</b>
+<i>82</i>&nbsp;
+<b class="nc"><i>83</i>&nbsp;        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest</b>
+<b class="nc"><i>84</i>&nbsp;            (Request.Method.GET, url, null, new Response.Listener&lt;JSONArray&gt;() {</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;                @Override
+<i>87</i>&nbsp;                public void onResponse(JSONArray response) {
+<b class="nc"><i>88</i>&nbsp;                    populateNewsItem(response);</b>
+<i>89</i>&nbsp;                }
+<i>90</i>&nbsp;
+<b class="nc"><i>91</i>&nbsp;            }, new Response.ErrorListener() {</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;                @Override
+<i>94</i>&nbsp;                public void onErrorResponse(VolleyError error) {
+<i>95</i>&nbsp;
+<b class="nc"><i>96</i>&nbsp;                    swipeRefresh.setVisibility(View.GONE);</b>
+<b class="nc"><i>97</i>&nbsp;                    if(swipeRefresh.isRefreshing()){</b>
+<b class="nc"><i>98</i>&nbsp;                        swipeRefresh.setRefreshing(false);</b>
+<i>99</i>&nbsp;                    }
+<i>100</i>&nbsp;
+<b class="nc"><i>101</i>&nbsp;                    String message = &quot;Error loading news&quot;;</b>
+<i>102</i>&nbsp;
+<b class="nc"><i>103</i>&nbsp;                    UILoader.showLoadError(message, new View.OnClickListener(){</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;                        @Override
+<i>106</i>&nbsp;                        public void onClick(View view) {
+<b class="nc"><i>107</i>&nbsp;                            swipeRefresh.setVisibility(View.VISIBLE);</b>
+<b class="nc"><i>108</i>&nbsp;                            requestNews();</b>
+<i>109</i>&nbsp;                        }
+<i>110</i>&nbsp;                    });
+<i>111</i>&nbsp;
+<b class="nc"><i>112</i>&nbsp;                    idlingResource.decrement();</b>
+<i>113</i>&nbsp;                }
+<i>114</i>&nbsp;            });
+<i>115</i>&nbsp;
+<b class="nc"><i>116</i>&nbsp;        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));</b>
+<b class="nc"><i>117</i>&nbsp;        queue.add(jsonArrayRequest);</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    private void populateNewsItem(JSONArray response){
+<b class="nc"><i>121</i>&nbsp;        Log.i(AppLog.LOG_TAG, response.toString());</b>
+<i>122</i>&nbsp;
+<b class="nc"><i>123</i>&nbsp;        newsItems = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>124</i>&nbsp;        for(int i=0;i&lt;response.length();i++){</b>
+<b class="nc"><i>125</i>&nbsp;            NewsItem newsItem = new NewsItem();</b>
+<i>126</i>&nbsp;            try {
+<b class="nc"><i>127</i>&nbsp;                newsItem.id = (int)response.get(i);</b>
+<b class="nc"><i>128</i>&nbsp;                newsItems.add(newsItem);</b>
+<b class="nc"><i>129</i>&nbsp;            } catch (JSONException e) {</b>
+<b class="nc"><i>130</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>131</i>&nbsp;            }</b>
+<i>132</i>&nbsp;        }
+<i>133</i>&nbsp;
+<b class="nc"><i>134</i>&nbsp;        setupAdapter();</b>
+<b class="nc"><i>135</i>&nbsp;        idlingResource.decrement();</b>
+<i>136</i>&nbsp;    }
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;    private void setupAdapter() {
+<b class="nc"><i>139</i>&nbsp;        newsAdapter = new NewsAdapter(NewsActivity.this,newsItems, this);</b>
+<b class="nc"><i>140</i>&nbsp;        recyclerView.setAdapter(newsAdapter);</b>
+<i>141</i>&nbsp;    }
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;    private void updateRecyclerView(NewsItem item, int index){
+<i>144</i>&nbsp;
+<b class="nc"><i>145</i>&nbsp;        if(swipeRefresh.isRefreshing()){</b>
+<b class="nc"><i>146</i>&nbsp;            swipeRefresh.setRefreshing(false);</b>
+<i>147</i>&nbsp;        }
+<i>148</i>&nbsp;
+<b class="nc"><i>149</i>&nbsp;        if(loaderView.getVisibility() != View.GONE){</b>
+<b class="nc"><i>150</i>&nbsp;            UILoader.showContent();</b>
+<i>151</i>&nbsp;        }
+<i>152</i>&nbsp;
+<b class="nc"><i>153</i>&nbsp;        newsItems.set(index,item);</b>
+<b class="nc"><i>154</i>&nbsp;        newsAdapter.notifyItemChanged(index);</b>
+<i>155</i>&nbsp;
+<b class="nc"><i>156</i>&nbsp;        idlingResource.decrement();</b>
+<i>157</i>&nbsp;    }
+<i>158</i>&nbsp;
+<i>159</i>&nbsp;    @Override
+<i>160</i>&nbsp;    public void onItemClick(int position) {
+<b class="nc"><i>161</i>&nbsp;        Intent i = new Intent(this, CommentActivity.class);</b>
+<b class="nc"><i>162</i>&nbsp;        i.putExtra(CommentActivity.COMMENT_LIST,newsItems.get(position).kids);</b>
+<b class="nc"><i>163</i>&nbsp;        startActivity(i);</b>
+<i>164</i>&nbsp;    }
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    @Override
+<i>167</i>&nbsp;    public void requestNews(final int position) {
+<i>168</i>&nbsp;
+<b class="nc"><i>169</i>&nbsp;        idlingResource.increment();</b>
+<i>170</i>&nbsp;
+<b class="nc"><i>171</i>&nbsp;        RequestQueue queue = Volley.newRequestQueue(this);</b>
+<b class="nc"><i>172</i>&nbsp;        String url = &quot;https://hacker-news.firebaseio.com/v0/item/&quot;+newsItems.get(position).id+&quot;.json&quot;;</b>
+<b class="nc"><i>173</i>&nbsp;        GsonRequest&lt;NewsItem&gt; newsRequest = new GsonRequest&lt;&gt;(Request.Method.GET,</b>
+<i>174</i>&nbsp;            url,
+<i>175</i>&nbsp;            NewsItem.class,
+<b class="nc"><i>176</i>&nbsp;            new Response.Listener&lt;NewsItem&gt;() {</b>
+<i>177</i>&nbsp;                @Override
+<i>178</i>&nbsp;                public void onResponse(NewsItem response) {
+<b class="nc"><i>179</i>&nbsp;                    updateRecyclerView(response, position);</b>
+<i>180</i>&nbsp;                }
+<i>181</i>&nbsp;            },
+<b class="nc"><i>182</i>&nbsp;            new Response.ErrorListener(){</b>
+<i>183</i>&nbsp;
+<i>184</i>&nbsp;                @Override
+<i>185</i>&nbsp;                public void onErrorResponse(VolleyError error) {
+<b class="nc"><i>186</i>&nbsp;                    Log.wtf(AppLog.LOG_TAG,error.getMessage());</b>
+<i>187</i>&nbsp;
+<b class="nc"><i>188</i>&nbsp;                    swipeRefresh.setVisibility(View.GONE);</b>
+<b class="nc"><i>189</i>&nbsp;                    String message = &quot;Error loading news&quot;;</b>
+<b class="nc"><i>190</i>&nbsp;                    UILoader.showLoadError(message, new View.OnClickListener(){</b>
+<i>191</i>&nbsp;
+<i>192</i>&nbsp;                        @Override
+<i>193</i>&nbsp;                        public void onClick(View view) {
+<b class="nc"><i>194</i>&nbsp;                            swipeRefresh.setVisibility(View.VISIBLE);</b>
+<b class="nc"><i>195</i>&nbsp;                            requestNews();</b>
+<i>196</i>&nbsp;                        }
+<i>197</i>&nbsp;                    });
+<i>198</i>&nbsp;
+<b class="nc"><i>199</i>&nbsp;                    idlingResource.decrement();</b>
+<i>200</i>&nbsp;                    //it will retry when adapter scrolls.
+<i>201</i>&nbsp;                }
+<i>202</i>&nbsp;            });
+<i>203</i>&nbsp;
+<b class="nc"><i>204</i>&nbsp;        newsRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));</b>
+<b class="nc"><i>205</i>&nbsp;        queue.add(newsRequest);</b>
+<i>206</i>&nbsp;    }
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    @Override
+<i>209</i>&nbsp;    public void onRefresh() {
+<b class="nc"><i>210</i>&nbsp;        requestNews();</b>
+<i>211</i>&nbsp;    }
+<i>212</i>&nbsp;
+<i>213</i>&nbsp;    @VisibleForTesting
+<i>214</i>&nbsp;    @NonNull
+<i>215</i>&nbsp;    public CountingIdlingResource getIdlingResource() {
+<b class="nc"><i>216</i>&nbsp;        return idlingResource;</b>
+<i>217</i>&nbsp;    }
+<i>218</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2017-11-20 18:39</div>
+</div>
+</body>
+</html>
