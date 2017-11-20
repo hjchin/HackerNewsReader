@@ -20,7 +20,7 @@ public class CommentItem implements Parcelable{
 
     }
 
-    protected CommentItem(Parcel in) {
+    private CommentItem(Parcel in) {
         by = in.readString();
         id = in.readInt();
         kids = in.createIntArray();

@@ -47,7 +47,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
-    private Context context;
     private ArrayList<NewsItem> data;
     private Callback callback;
 
@@ -57,7 +56,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     NewsAdapter(Context context, ArrayList<NewsItem> data, Callback callback){
-        this.context = context;
+        Context context1 = context;
         this.data = data;
         this.callback = callback;
     }
@@ -69,7 +68,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(NewsAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final NewsAdapter.ViewHolder holder, int position) {
 
         NewsItem newsItem = data.get(position);
 
@@ -115,7 +114,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
             @Override
             public void onClick(View view) {
-                callback.onItemClick(position);
+                callback.onItemClick(holder.getAdapterPosition());
             }
         });
     }
