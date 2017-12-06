@@ -2,8 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
 
 //run /.gradlew clean jacocoTestReport
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-    //we use "debug" build type for test coverage (can be other)
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testMockDebugUnitTest', 'createMockDebugCoverageReport']) {
     group = "reporting"
     description = "Generate unified Jacoco code coverage report"
 
@@ -13,21 +12,25 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         csv.enabled = false
     }
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
-    //we use "debug" build type for test coverage (can be other)
+    def fileFilter = ['**/R.class',
+                      '**/R$*.class',
+                      '**/BuildConfig.*',
+                      '**/Manifest*.*',
+                      '**/*Test*.*',
+                      'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/mock/debug", excludes: fileFilter)
     def mainSrc = "${project.projectDir}/src/main/java"
 
     sourceDirectories = files([mainSrc])
     classDirectories = files([debugTree])
     executionData = fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec", //we use "debug" build type for test coverage (can be other)
-            "outputs/code-coverage/connected/*coverage.ec"
+            "jacoco/testMockDebugUnitTest.exec",
+            "outputs/code-coverage/connected/flavors/MOCK/*coverage.ec"
     ])
 }
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion '0.7.2.201409121644'
 }
 
 android {
@@ -55,6 +58,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -63,6 +67,26 @@ android {
 
         debug {
             testCoverageEnabled = true
+        }
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        mock {
+            dimension "default"
+            applicationIdSuffix = ".mock"
+        }
+
+        prod {
+            dimension "default"
+        }
+    }
+
+    android.variantFilter { variant ->
+        if (variant.buildType.name == 'release'
+                && variant.getFlavors().get(0).name == 'mock') {
+            variant.setIgnore(true)
         }
     }
 }
@@ -79,10 +103,13 @@ dependencies {
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
     implementation 'org.sufficientlysecure:html-textview:3.5'
     implementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.1'
+    implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+    implementation ('com.google.guava:guava:23.5-android'){
+        exclude group: 'com.google.code.findbugs', module:'jsr305'
+    }
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.7.22'
     testImplementation "org.robolectric:robolectric:3.5.1"
-    testImplementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.1'

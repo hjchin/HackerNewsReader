@@ -14,14 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.hackernews.reader.NewsActivity">
+        <activity android:name="com.hackernews.reader.news.NewsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hackernews.reader.CommentActivity" />
+        <activity android:name="com.hackernews.reader.comment.CommentActivity" />
     </application>
 
 </manifest>

@@ -16,13 +16,12 @@ public class UILoader {
 
     private final View loaderView;
     private final View contentView;
-    private final int animationDuration;
 
     public UILoader(Context context, View loaderView, View contentView){
         this.loaderView = loaderView;
         this.contentView = contentView;
 
-        animationDuration = context.getResources()
+        int animationDuration = context.getResources()
                 .getInteger(android.R.integer.config_shortAnimTime);
     }
 

@@ -36,7 +36,7 @@ public class TestableIndeterminateProgressBar extends ProgressBar {
         super.setIndeterminateDrawable(hideIndeterminateDrawable() ? null : drawable);
     }
 
-    public boolean hideIndeterminateDrawable() {
+    private boolean hideIndeterminateDrawable() {
         return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
                 Settings.Global.getFloat(getContext().getContentResolver(), Settings.Global.ANIMATOR_DURATION_SCALE, 1) == 0;
     }

@@ -2,13 +2,6 @@
     <string name="app_name">Hacker News Reader</string>
     <string name="error_message">Unable to load news</string>
     <string name="try_again">try again</string>
-    <string name="author">author</string>
-    <string name="point">point</string>
-    <string name="time">time</string>
     <string name="comment">Comment</string>
-    <string name="no">No.</string>
-    <string name="source">source</string>
-    <string name="title">title</string>
     <string name="no_comment">No Comment</string>
-    <string name="by">by</string>
 </resources>
