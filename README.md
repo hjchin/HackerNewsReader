@@ -4,8 +4,8 @@ This sample project is to demostrate an android app built for https://github.com
 
 The objective of the project is to illustrate:
 - implementation of MVP
-- unit testing 
-- android testing
+- unit test 
+- android test
 - unified test coverage report using jacoco
 
 In order to run testing and generate coverage report, switch to mockDebug build variant and hit the following command in Android Terminal.
