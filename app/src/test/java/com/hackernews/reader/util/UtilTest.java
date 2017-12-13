@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
  * Created by HJ Chin on 11/11/2017.
  */
 
+@SuppressWarnings("ALL")
 public class UtilTest {
 
     @Test public void getPrettyTimeTest(){

@@ -12,6 +12,7 @@ import java.util.Random;
  * Created by HJ Chin on 3/12/2017.
  */
 
+@SuppressWarnings("ALL")
 public class FakeData {
 
     static public Map<Integer, NewsItem> newsItems;

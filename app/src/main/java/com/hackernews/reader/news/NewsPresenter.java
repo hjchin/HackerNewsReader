@@ -1,7 +1,6 @@
 package com.hackernews.reader.news;
 
 
-import com.android.volley.VolleyError;
 import com.hackernews.reader.BasePresenter;
 import com.hackernews.reader.data.news.NewsModel;
 import com.hackernews.reader.data.news.NewsItem;
@@ -43,7 +42,7 @@ class NewsPresenter implements BasePresenter{
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(Throwable error) {
                 view.showError(error);
             }
         });
@@ -59,8 +58,8 @@ class NewsPresenter implements BasePresenter{
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                view.showError(error);
+            public void onErrorResponse(Throwable throwable) {
+                view.showError(throwable);
             }
         });
     }

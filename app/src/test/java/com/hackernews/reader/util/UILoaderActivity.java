@@ -11,6 +11,7 @@ import com.hackernews.reader.util.UILoader;
  * Created by HJ Chin on 15/11/2017.
  */
 
+@SuppressWarnings("ALL")
 public class UILoaderActivity extends AppCompatActivity {
 
     UILoader uiLoader;

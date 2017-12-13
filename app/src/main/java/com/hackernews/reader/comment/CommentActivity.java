@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.android.volley.VolleyError;
 import com.hackernews.reader.data.comment.CommentItem;
 import com.hackernews.reader.R;
 import com.hackernews.reader.data.comment.CommentProvider;
@@ -105,7 +104,7 @@ public class CommentActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showError(VolleyError error) {
+    public void showError(Throwable t) {
         UILoader.showLoadError("Error loading comment"
             ,new View.OnClickListener(){
                 @Override

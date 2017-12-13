@@ -12,6 +12,7 @@ import com.hackernews.reader.R;
  * Created by HJ Chin on 10/11/2017.
  */
 
+@SuppressWarnings("ALL")
 public class UILoader {
 
     private final View loaderView;
@@ -20,9 +21,6 @@ public class UILoader {
     public UILoader(Context context, View loaderView, View contentView){
         this.loaderView = loaderView;
         this.contentView = contentView;
-
-        int animationDuration = context.getResources()
-                .getInteger(android.R.integer.config_shortAnimTime);
     }
 
     public void showLoader(){

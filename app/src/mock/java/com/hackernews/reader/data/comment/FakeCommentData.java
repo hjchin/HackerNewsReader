@@ -2,7 +2,6 @@ package com.hackernews.reader.data.comment;
 
 import android.os.Handler;
 
-import com.android.volley.VolleyError;
 import com.hackernews.reader.data.FakeData;
 
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.Map;
  * Created by HJ Chin on 2/12/2017.
  */
 
+@SuppressWarnings("ALL")
 public class FakeCommentData implements CommentModel{
 
     private Map<Integer, CommentItem> data = new LinkedHashMap<>();
@@ -69,7 +69,7 @@ public class FakeCommentData implements CommentModel{
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                callback.onErrorResponse(new VolleyError());
+                callback.onErrorResponse(new Throwable());
             }
         },1000);
     }

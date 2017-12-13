@@ -9,6 +9,7 @@ import com.hackernews.reader.data.Item;
  * Created by HJ Chin on 13/11/2017.
  */
 
+@SuppressWarnings("ALL")
 public class CommentItem extends Item implements Parcelable{
     public String by;
     public int id;

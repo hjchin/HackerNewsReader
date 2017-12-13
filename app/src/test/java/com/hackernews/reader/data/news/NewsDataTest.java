@@ -1,6 +1,6 @@
 package com.hackernews.reader.data.news;
 
-import com.android.volley.VolleyError;
+import com.hackernews.reader.data.HackerNewsApi;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -8,8 +8,10 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,18 +19,19 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by HJ Chin on 5/12/2017.
  */
 
+@SuppressWarnings("ALL")
 public class NewsDataTest {
 
     @Test
     public void testFill(){
-        NewsIDRequest idRequest = mock(NewsIDRequest.class);
-        NewsItemRequest itemRequest = mock(NewsItemRequest.class);
-        NewsData newsData = new NewsData(idRequest,itemRequest);
+        HackerNewsApi hackerNewsApi = mock(HackerNewsApi.class);
+        NewsData newsData = new NewsData(hackerNewsApi);
         ArrayList<NewsItem> items = new ArrayList<>();
         NewsItem item = new NewsItem();
         item.id = 1;
@@ -39,25 +42,30 @@ public class NewsDataTest {
 
     @Test
     public void testGetIdsOK(){
-        NewsIDRequest idRequest = mock(NewsIDRequest.class);
-        NewsItemRequest itemRequest = mock(NewsItemRequest.class);
-        NewsData newsData = new NewsData(idRequest,itemRequest);
+        HackerNewsApi hackerNewsApi = mock(HackerNewsApi.class);
+        NewsData newsData = new NewsData(hackerNewsApi);
 
-        doAnswer(
-            new Answer() {
-                @Override
-                public Object answer(InvocationOnMock invocation) throws Throwable {
-                    Map<Integer, NewsItem> newsItems = new LinkedHashMap<>();
-                    for(int i=0;i<5;i++){
-                        NewsItem item = new NewsItem();
-                        item.id = i;
-                        newsItems.put(item.id,item);
-                    }
-                    ((NewsIDRequest.Callback)invocation.getArgument(0)).onResponse(newsItems);
-                    return null;
-                }
+        when(hackerNewsApi.getTopStoriesId()).thenAnswer(new Answer<Call<Integer[]>>() {
+            @Override
+            public Call<Integer[]> answer(InvocationOnMock invocation) throws Throwable {
+
+                Call<Integer[]> call = mock(Call.class);
+
+                doAnswer(
+                        new Answer() {
+                            @Override
+                            public Object answer(InvocationOnMock invocation) throws Throwable {
+                                Integer[] integers = new Integer[]{1,2,3,4,5};
+                                Response<Integer[]> response = Response.success(integers);
+                                ((Callback)invocation.getArgument(0)).onResponse(null,response);
+                                return null;
+                            }
+                        }
+                ).when(call).enqueue(any(Callback.class));
+
+                return call;
             }
-        ).when(idRequest).requestId(any(NewsIDRequest.Callback.class));
+        });
 
         NewsModel.GetIdsCallback callback = mock(NewsModel.GetIdsCallback.class);
         newsData.getIds(callback);
@@ -65,83 +73,116 @@ public class NewsDataTest {
         ArgumentCaptor<ArrayList<NewsItem>> argumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
         verify(callback).onResponse(argumentCaptor.capture());
 
-
         ArrayList<NewsItem> newsItem = argumentCaptor.getValue();
-        assertEquals(newsItem.size(), 5);
+        int counter = 1;
+        for(NewsItem item : newsItem){
+            assertEquals(counter,item.id);
+            counter++;
+        }
     }
 
     @Test
     public void testGetIdsFailed(){
-        NewsIDRequest idRequest = mock(NewsIDRequest.class);
-        NewsItemRequest itemRequest = mock(NewsItemRequest.class);
-        NewsData newsData = new NewsData(idRequest,itemRequest);
+        HackerNewsApi hackerNewsApi = mock(HackerNewsApi.class);
+        NewsData newsData = new NewsData(hackerNewsApi);
 
-        doAnswer(
-                new Answer() {
-                    @Override
-                    public Object answer(InvocationOnMock invocation) throws Throwable {
-                        ((NewsIDRequest.Callback)invocation.getArgument(0)).onErrorResponse(new VolleyError());
-                        return null;
-                    }
-                }
-        ).when(idRequest).requestId(any(NewsIDRequest.Callback.class));
+        when(hackerNewsApi.getTopStoriesId()).thenAnswer(new Answer<Call<Integer[]>>() {
+            @Override
+            public Call<Integer[]> answer(InvocationOnMock invocation) throws Throwable {
+
+                Call<Integer[]> call = mock(Call.class);
+
+                doAnswer(
+                        new Answer() {
+                            @Override
+                            public Object answer(InvocationOnMock invocation) throws Throwable {
+                                Throwable throwable = new Throwable("error");
+                                ((Callback)invocation.getArgument(0)).onFailure(null,throwable);
+                                return null;
+                            }
+                        }
+                ).when(call).enqueue(any(Callback.class));
+
+                return call;
+            }
+        });
 
         NewsModel.GetIdsCallback callback = mock(NewsModel.GetIdsCallback.class);
         newsData.getIds(callback);
 
-        ArgumentCaptor<VolleyError> argumentCaptor = ArgumentCaptor.forClass(VolleyError.class);
+        ArgumentCaptor<Throwable> argumentCaptor = ArgumentCaptor.forClass(Throwable.class);
         verify(callback).onErrorResponse(argumentCaptor.capture());
     }
 
     @Test
     public void testGetItemsOK(){
-        NewsIDRequest idRequest = mock(NewsIDRequest.class);
-        NewsItemRequest itemRequest = mock(NewsItemRequest.class);
-        NewsData newsData = new NewsData(idRequest,itemRequest);
+        HackerNewsApi hackerNewsApi = mock(HackerNewsApi.class);
+        NewsData newsData = new NewsData(hackerNewsApi);
+        final int newsId = 0;
 
-        doAnswer(
-                new Answer() {
-                    @Override
-                    public Object answer(InvocationOnMock invocation) throws Throwable {
-                        int id = (int)invocation.getArgument(0);
-                        NewsItem newsItem = new NewsItem();
-                        newsItem.id = id;
-                        ((NewsItemRequest.Callback)invocation.getArgument(1)).onResponse(newsItem);
-                        return null;
-                    }
-                }
-        ).when(itemRequest).requestItem(anyInt(),any(NewsItemRequest.Callback.class));
+        when(hackerNewsApi.getNews(anyInt())).thenAnswer(new Answer<Call<NewsItem>>() {
+            @Override
+            public Call<NewsItem> answer(InvocationOnMock invocation) throws Throwable {
+
+                Call<NewsItem> call = mock(Call.class);
+
+                doAnswer(
+                        new Answer() {
+                            @Override
+                            public Object answer(InvocationOnMock invocation) throws Throwable {
+                                NewsItem newsItem = new NewsItem();
+                                newsItem.id = newsId;
+                                Response response = Response.success(newsItem);
+                                ((Callback)invocation.getArgument(0)).onResponse(null,response);
+                                return null;
+                            }
+                        }
+                ).when(call).enqueue(any(Callback.class));
+                return call;
+            }
+        });
+
 
         NewsModel.GetNewsItemCallback callback = mock(NewsModel.GetNewsItemCallback.class);
-        newsData.getItem(0,callback);
+        newsData.getItem(newsId,callback);
 
         ArgumentCaptor<NewsItem> argumentCaptor = ArgumentCaptor.forClass(NewsItem.class);
         verify(callback).onResponse(argumentCaptor.capture());
 
-        assertEquals(0,argumentCaptor.getValue().id);
+        assertEquals(newsId,argumentCaptor.getValue().id);
     }
 
     @Test
     public void testGetItemsFailed(){
-        NewsIDRequest idRequest = mock(NewsIDRequest.class);
-        NewsItemRequest itemRequest = mock(NewsItemRequest.class);
-        NewsData newsData = new NewsData(idRequest,itemRequest);
 
-        doAnswer(
-                new Answer() {
-                    @Override
-                    public Object answer(InvocationOnMock invocation) throws Throwable {
-                        int index = (int)invocation.getArgument(0);
-                        ((NewsItemRequest.Callback)invocation.getArgument(1)).onErrorResponse(new VolleyError());
-                        return null;
-                    }
-                }
-        ).when(itemRequest).requestItem(anyInt(),any(NewsItemRequest.Callback.class));
+        HackerNewsApi hackerNewsApi = mock(HackerNewsApi.class);
+        NewsData newsData = new NewsData(hackerNewsApi);
+        final int newsId = 0;
+
+        when(hackerNewsApi.getNews(anyInt())).thenAnswer(new Answer<Call<NewsItem>>() {
+            @Override
+            public Call<NewsItem> answer(InvocationOnMock invocation) throws Throwable {
+
+                Call<NewsItem> call = mock(Call.class);
+
+                doAnswer(
+                        new Answer() {
+                            @Override
+                            public Object answer(InvocationOnMock invocation) throws Throwable {
+
+                                ((Callback)invocation.getArgument(0)).onFailure(null,new Throwable("error"));
+                                return null;
+                            }
+                        }
+                ).when(call).enqueue(any(Callback.class));
+                return call;
+            }
+        });
 
         NewsModel.GetNewsItemCallback callback = mock(NewsModel.GetNewsItemCallback.class);
-        newsData.getItem(0,callback);
+        newsData.getItem(newsId,callback);
 
-        ArgumentCaptor<VolleyError> argumentCaptor = ArgumentCaptor.forClass(VolleyError.class);
+        ArgumentCaptor<Throwable> argumentCaptor = ArgumentCaptor.forClass(Throwable.class);
         verify(callback).onErrorResponse(argumentCaptor.capture());
     }
 }

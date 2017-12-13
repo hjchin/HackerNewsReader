@@ -3,7 +3,6 @@ package com.hackernews.reader.data.news;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.android.volley.VolleyError;
 import com.hackernews.reader.data.FakeData;
 
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class FakeNewsData implements NewsModel {
                         e.printStackTrace();
                     }
 
-                    callback.onResponse(new ArrayList<NewsItem>(data.values()));
+                    callback.onResponse(new ArrayList<>(data.values()));
                 }
             });
 
@@ -69,8 +68,7 @@ public class FakeNewsData implements NewsModel {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                VolleyError error = new VolleyError();
-                callback.onErrorResponse(error);
+                callback.onErrorResponse(new Throwable());
             }
         });
     }
@@ -105,8 +103,7 @@ public class FakeNewsData implements NewsModel {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                VolleyError error = new VolleyError();
-                callback.onErrorResponse(error);
+                callback.onErrorResponse(new Throwable());
             }
         });
 

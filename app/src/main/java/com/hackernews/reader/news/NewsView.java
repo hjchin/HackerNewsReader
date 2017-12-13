@@ -1,6 +1,5 @@
 package com.hackernews.reader.news;
 
-import com.android.volley.VolleyError;
 import com.hackernews.reader.data.news.NewsItem;
 
 import java.util.ArrayList;
@@ -13,6 +12,6 @@ import java.util.ArrayList;
 interface NewsView {
     void showProgressBar();
     void fillAdapter(ArrayList<NewsItem> item);
-    void showError(VolleyError error);
+    void showError(Throwable throwable);
     void refreshItem(int position, NewsItem item);
 }

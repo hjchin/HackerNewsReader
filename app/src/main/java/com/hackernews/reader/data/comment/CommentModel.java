@@ -1,6 +1,5 @@
 package com.hackernews.reader.data.comment;
 
-import com.android.volley.VolleyError;
 import com.hackernews.reader.data.BaseModel;
 
 import java.util.ArrayList;
@@ -9,11 +8,12 @@ import java.util.ArrayList;
  * Created by HJ Chin on 30/11/2017.
  */
 
+@SuppressWarnings("ALL")
 public interface CommentModel extends BaseModel {
 
     interface GetItemCallback{
         void onResponse(CommentItem item);
-        void onErrorResponse(VolleyError error);
+        void onErrorResponse(Throwable throwable);
     }
 
     ArrayList<CommentItem> getImmutableList();

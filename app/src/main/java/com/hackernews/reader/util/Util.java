@@ -9,6 +9,7 @@ import java.util.Date;
  * Created by HJ Chin on 13/11/2017.
  */
 
+@SuppressWarnings("ALL")
 public class Util {
 
     public static String getPrettyTime(long unixTimestamp){

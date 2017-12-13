@@ -12,8 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.android.volley.VolleyError;
-
 import java.util.ArrayList;
 
 import com.hackernews.reader.comment.CommentActivity;
@@ -109,7 +107,7 @@ public class NewsActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showError(VolleyError error) {
+    public void showError(Throwable throwable) {
         swipeRefresh.setVisibility(View.GONE);
         if(swipeRefresh.isRefreshing()){
             swipeRefresh.setRefreshing(false);

@@ -1,23 +1,27 @@
 package com.hackernews.reader.data.comment;
 
-import com.android.volley.VolleyError;
+import com.hackernews.reader.data.HackerNewsApi;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by HJ Chin on 30/11/2017.
  */
 
+@SuppressWarnings("ALL")
 public class CommentData implements CommentModel {
 
-    private CommentItemRequest dataRequest;
-
+    private HackerNewsApi api;
     private Map<Integer, CommentItem> data = new LinkedHashMap<>();
 
-    public CommentData(CommentItemRequest dataRequest){
-        this.dataRequest = dataRequest;
+    CommentData(HackerNewsApi api){
+        this.api = api;
     }
 
     public void fill(ArrayList<CommentItem> items){
@@ -52,17 +56,17 @@ public class CommentData implements CommentModel {
 
     public void getItem(final int commentId, final GetItemCallback callback) {
 
-        dataRequest.requestItem(commentId, new CommentItemRequest.Callback() {
-
+        api.getCommentItem(commentId).enqueue(new Callback<CommentItem>() {
             @Override
-            public void onResponse(CommentItem item) {
+            public void onResponse(Call<CommentItem> call, Response<CommentItem> response) {
+                CommentItem item = response.body();
                 data.put(commentId,item);
                 callback.onResponse(item);
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                callback.onErrorResponse(error);
+            public void onFailure(Call<CommentItem> call, Throwable t) {
+                callback.onErrorResponse(t);
             }
         });
     }

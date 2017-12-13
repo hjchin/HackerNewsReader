@@ -1,6 +1,5 @@
 package com.hackernews.reader.comment;
 
-import com.android.volley.VolleyError;
 import com.hackernews.reader.BasePresenter;
 import com.hackernews.reader.data.comment.CommentItem;
 import com.hackernews.reader.data.comment.CommentModel;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
  * Created by HJ Chin on 30/11/2017.
  */
 
+@SuppressWarnings("ALL")
 public class CommentPresenter implements BasePresenter{
 
     private CommentModel data;
@@ -45,8 +45,8 @@ public class CommentPresenter implements BasePresenter{
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                view.showError(error);
+            public void onErrorResponse(Throwable t) {
+                view.showError(t);
             }
         });
     }

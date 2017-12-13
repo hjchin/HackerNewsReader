@@ -32,6 +32,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  * Created by HJ Chin on 2/12/2017.
  */
 
+@SuppressWarnings("ALL")
 @RunWith(AndroidJUnit4.class)
 public class CommentActivityTest {
 
@@ -54,6 +55,7 @@ public class CommentActivityTest {
     @Test public void testNullComment(){
         launchActivity(null);
         onView(withId(R.id.no_comment)).check(matches(isDisplayed()));
+        onView(withId(R.id.no_comment)).check(matches(withText("No Comment")));
     }
 
     @Test

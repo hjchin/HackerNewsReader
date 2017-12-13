@@ -1,6 +1,5 @@
 package com.hackernews.reader.comment;
 
-import com.android.volley.VolleyError;
 import com.hackernews.reader.data.comment.CommentItem;
 
 import java.util.ArrayList;
@@ -9,8 +8,9 @@ import java.util.ArrayList;
  * Created by HJ Chin on 30/11/2017.
  */
 
+@SuppressWarnings("ALL")
 interface CommentView {
     void fillAdapter(ArrayList<CommentItem> item);
-    void showError(VolleyError error);
+    void showError(Throwable throwable);
     void refreshItem(int position, CommentItem item);
 }

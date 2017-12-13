@@ -2,7 +2,7 @@ package com.hackernews.reader.data.comment;
 
 import android.content.Context;
 
-import com.hackernews.reader.data.RestApi;
+import com.hackernews.reader.data.HttpClient;
 
 /**
  * Created by HJ Chin on 30/11/2017.
@@ -14,7 +14,7 @@ public class CommentProvider {
 
     public static CommentData getInstance(Context context) {
         if(commentData == null){
-            commentData = new CommentData(new CommentItemRequest(RestApi.getInstance(context)));
+            commentData = new CommentData(HttpClient.getInstance().getHackerNewsApi());
         }
 
         return commentData;

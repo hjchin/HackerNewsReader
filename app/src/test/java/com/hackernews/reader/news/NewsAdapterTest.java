@@ -16,6 +16,7 @@ import static junit.framework.Assert.assertEquals;
  * Created by HJ Chin on 17/11/2017.
  */
 
+@SuppressWarnings("ALL")
 @RunWith(RobolectricTestRunner.class)
 public class NewsAdapterTest {
 
