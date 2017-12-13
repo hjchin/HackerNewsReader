@@ -75,7 +75,7 @@ public class HttpClient implements HttpClientInterface {
 
             String responseString = "";
             switch(uri.getPath()){
-                case "/v0/topstories":
+                case "/v0/topstories.json":
                     responseString = getTopStoriesId();
                     break;
             }

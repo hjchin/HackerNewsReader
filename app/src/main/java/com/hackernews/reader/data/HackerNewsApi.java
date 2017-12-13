@@ -14,7 +14,7 @@ import retrofit2.http.Path;
 @SuppressWarnings("ALL")
 public interface HackerNewsApi {
 
-    @GET("/v0/topstories")
+    @GET("/v0/topstories.json")
     Call<Integer[]> getTopStoriesId();
 
     @GET("/v0/item/{newsId}.json")

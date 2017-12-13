@@ -1,22 +1,8 @@
 package com.hackernews.reader.data;
 
-import android.content.Context;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.hackernews.reader.data.news.NewsItem;
-
-import java.io.IOException;
-import java.net.URI;
-import java.util.Map;
-
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.Protocol;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -39,10 +25,6 @@ public class HttpClient implements HttpClientInterface {
             mInstance = new HttpClient();
         }
         return mInstance;
-    }
-
-    public RequestQueue getRequestQueue() {
-        return null;
     }
 
     @Override
