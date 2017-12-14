@@ -53,7 +53,7 @@ android {
 
     compileSdkVersion 25
     defaultConfig {
-        applicationId "com.propertygurutest.hackernewsreader"
+        applicationId "com.hackernews.reader"
         minSdkVersion 11
         targetSdkVersion 25
         versionCode 1
