@@ -22,7 +22,6 @@ public class NewsAdapterActivity extends AppCompatActivity implements NewsAdapte
     }
 
     public void setNewsItem(ArrayList<NewsItem> newsItem){
-        ArrayList<NewsItem> newsItem1 = newsItem;
         adapter = new NewsAdapter(newsItem,this);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.newsList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

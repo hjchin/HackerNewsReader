@@ -1,7 +1,5 @@
 package com.hackernews.reader.data.news;
 
-import android.content.Context;
-
 /**
  * Created by HJ Chin on 29/11/2017.
  *

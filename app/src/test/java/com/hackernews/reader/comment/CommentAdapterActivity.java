@@ -22,7 +22,6 @@ public class CommentAdapterActivity extends AppCompatActivity implements Comment
     }
 
     public void setCommentItem(ArrayList<CommentItem> commentItem){
-        ArrayList<CommentItem> commentItem1 = commentItem;
         adapter = new CommentAdapter(commentItem,this);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.commentList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

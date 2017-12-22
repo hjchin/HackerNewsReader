@@ -1,6 +1,6 @@
 package com.hackernews.reader.data.comment;
 
-import android.content.Context;
+import java.util.ArrayList;
 
 /**
  * Created by HJ Chin on 2/12/2017.
@@ -9,13 +9,33 @@ import android.content.Context;
 @SuppressWarnings("ALL")
 public class CommentProvider {
 
-    private static CommentModel commentData;
+    private static ArrayList<CommentModel> commentModelArrayList = new ArrayList<>();
+    private static boolean disableConnection = false;
 
     public static CommentModel getInstance() {
-        if(commentData == null){
-            commentData = new FakeCommentData();
+        if(commentModelArrayList.size() == 0){
+            return newInstance();
         }
 
-        return commentData;
+        return commentModelArrayList.get(commentModelArrayList.size()-1);
+    }
+
+    public static CommentModel newInstance(){
+        CommentModel model = new FakeCommentData();
+
+        if(disableConnection){
+            model.disconnect();
+        }
+        commentModelArrayList.add(model);
+
+        return commentModelArrayList.get(commentModelArrayList.size()-1);
+    }
+
+    public static void initDisableConnection(){
+        disableConnection = true;
+    }
+
+    public static void initNormalConnection(){
+        disableConnection = false;
     }
 }

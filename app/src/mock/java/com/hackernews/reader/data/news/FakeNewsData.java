@@ -2,7 +2,6 @@ package com.hackernews.reader.data.news;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.ContactsContract;
 
 import com.hackernews.reader.data.FakeData;
 

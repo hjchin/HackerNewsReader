@@ -43,10 +43,10 @@ public class CommentActivityTest {
     @Before
     public void setup(){
         context = InstrumentationRegistry.getTargetContext();
+        CommentProvider.initNormalConnection();
     }
 
     private Activity launchActivity(Intent intent){
-        CommentProvider.getInstance().connect();
         CommentActivity activity = activityTestRule.launchActivity(intent);
         IdlingRegistry.getInstance().register(activity.getIdlingResource());
         return activity;
@@ -100,18 +100,11 @@ public class CommentActivityTest {
     @Test
     public void testOffline(){
 
-        ActivityTestRule<CommentActivity> activityTestRule = new ActivityTestRule<CommentActivity>(CommentActivity.class, true, false){
-            @Override
-            protected void beforeActivityLaunched() {
-                super.beforeActivityLaunched();
-                CommentProvider.getInstance().disconnect();
-            }
-        };
+        CommentProvider.initDisableConnection();
 
         Intent intent = new Intent();
         intent.putExtra(CommentActivity.COMMENT_LIST, createCommentIds());
-        CommentActivity activity = activityTestRule.launchActivity(intent);
-        IdlingRegistry.getInstance().register(activity.getIdlingResource());
+        launchActivity(intent);
 
         onView(withId(R.id.retry_button)).check(matches(isDisplayed()));
 

@@ -8,13 +8,17 @@ import com.hackernews.reader.data.HttpClient;
 
 public class CommentProvider {
 
-    private static CommentData commentData;
+    private static CommentModel commentData;
 
-    public static CommentData getInstance() {
+    public static CommentModel getInstance() {
         if(commentData == null){
             commentData = new CommentData(HttpClient.getInstance().getHackerNewsApi());
         }
 
         return commentData;
+    }
+
+    public static CommentModel newInstance(){
+        return new CommentData(HttpClient.getInstance().getHackerNewsApi());
     }
 }
