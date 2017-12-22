@@ -12,5 +12,5 @@ import java.util.ArrayList;
 interface CommentView {
     void fillAdapter(ArrayList<CommentItem> item);
     void showError(Throwable throwable);
-    void refreshItem(int position, CommentItem item);
+    void addToAdapter(CommentItem item);
 }

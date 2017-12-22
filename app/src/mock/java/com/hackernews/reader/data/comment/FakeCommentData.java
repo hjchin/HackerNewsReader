@@ -53,16 +53,18 @@ public class FakeCommentData implements CommentModel{
     }
 
     @Override
-    public void getItem(final int id, final GetItemCallback callback) {
-
+    public void getItems(final GetItemCallback callback) {
         if(connect){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    data.put(id, FakeData.commentItems.get(id));
-                    callback.onResponse(data.get(id));
-                }
-            },1000);
+            for(final Map.Entry<Integer, CommentItem> c : data.entrySet()){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        data.put(c.getKey(), FakeData.commentItems.get(c.getKey()));
+                        callback.onResponse(data.get(c.getKey()));
+                    }
+                },1000);
+            }
+
             return;
         }
 

@@ -19,5 +19,5 @@ public interface CommentModel extends BaseModel {
     ArrayList<CommentItem> getImmutableList();
     void fill(ArrayList<CommentItem> items);
     void fill(int[] commentIds);
-    void getItem(int commentId, final GetItemCallback callback);
+    void getItems(final GetItemCallback callback);
 }

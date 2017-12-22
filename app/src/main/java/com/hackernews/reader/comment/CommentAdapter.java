@@ -22,9 +22,9 @@ import java.util.ArrayList;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
     interface Callback{
-        void requestComment(int position, CommentItem item);
         void requestReply(int position);
     }
+
 
     private ArrayList<CommentItem> data;
     private Callback callback;
@@ -34,9 +34,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         this.callback = callback;
     }
 
-    public void setData(int position, CommentItem item) {
-        data.set(position,item);
-        notifyItemChanged(position);
+    public void addItem(CommentItem item) {
+        data.add(item);
+        notifyItemInserted(data.size()-1);
     }
 
     public void setData(ArrayList<CommentItem> items){
@@ -51,7 +51,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_item, parent,false);
-        view.findViewById(R.id.indicator).setVisibility(View.INVISIBLE);
+        //view.findViewById(R.id.indicator).setVisibility(View.INVISIBLE);
         return new ViewHolder(view);
     }
 
@@ -60,19 +60,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         CommentItem commentItem = data.get(position);
 
-        if(commentItem.by == null){
-            callback.requestComment(holder.getAdapterPosition(), commentItem);
-            return;
-        }
-
         holder.itemView.findViewById(R.id.indicator).setVisibility(View.VISIBLE);
 
         holder.by.setText(commentItem.by);
         holder.time.setText(Util.getPrettyTime(commentItem.time));
 
-        //Log.i(AppLog.LOG_TAG,commentItem.text);
         if(commentItem.text != null)
-            holder.comment.setHtml(commentItem.text);
+            holder.comment.setHtml(commentItem.text.trim());
         else
             holder.comment.setHtml("");
 

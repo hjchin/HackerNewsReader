@@ -38,14 +38,16 @@ public class CommentActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         setTitle(R.string.comment);
+
         RecyclerView commentContainer = (RecyclerView) findViewById(R.id.comment_list);
         commentContainer.setLayoutManager(new LinearLayoutManager(this));
+
         loaderContainer = findViewById(R.id.loading_container);
         UILoader = new UILoader(this, loaderContainer, commentContainer);
 
-        presenter = new CommentPresenter(CommentProvider.getInstance(), this);
+        presenter = new CommentPresenter(CommentProvider.getInstance(), this, idlingResource);
 
-        commentAdapter = new CommentAdapter(presenter.getData(), this);
+        commentAdapter = new CommentAdapter(new ArrayList<CommentItem>(), this);
         commentContainer.setAdapter(commentAdapter);
 
         if(savedInstanceState == null){
@@ -56,8 +58,7 @@ public class CommentActivity extends AppCompatActivity implements
                 return;
             }
 
-            idlingResource.increment();
-            presenter.setCommentIds(commentIdList);
+            presenter.loadComemnts(commentIdList);
 
         }else{
             ArrayList<Parcelable> retrieved = savedInstanceState.getParcelableArrayList(COMMENT_ITEM);
@@ -66,7 +67,6 @@ public class CommentActivity extends AppCompatActivity implements
                 items.add((CommentItem)p);
             }
 
-            idlingResource.increment();
             presenter.restoreState(items);
             UILoader.showContent();
         }
@@ -85,12 +85,6 @@ public class CommentActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void requestComment(final int position, CommentItem comment) {
-        idlingResource.increment();
-        presenter.loadItem(comment.id, position);
-    }
-
-    @Override
     public void requestReply(int position) {
         Intent i = new Intent(this, CommentActivity.class);
         i.putExtra(COMMENT_LIST,presenter.getData().get(position).kids);
@@ -100,7 +94,6 @@ public class CommentActivity extends AppCompatActivity implements
     @Override
     public void fillAdapter(ArrayList<CommentItem> item) {
         commentAdapter.setData(item);
-        idlingResource.decrement();
     }
 
     @Override
@@ -112,18 +105,14 @@ public class CommentActivity extends AppCompatActivity implements
                     commentAdapter.notifyDataSetChanged();
                 }
             });
-        idlingResource.decrement();
     }
 
     @Override
-    public void refreshItem(int position, CommentItem item) {
-
+    public void addToAdapter(CommentItem item) {
         if(loaderContainer.getVisibility() != View.GONE){
             UILoader.showContent();
         }
-
-        commentAdapter.setData(position, item);
-        idlingResource.decrement();
+        commentAdapter.addItem(item);
     }
 
     @VisibleForTesting

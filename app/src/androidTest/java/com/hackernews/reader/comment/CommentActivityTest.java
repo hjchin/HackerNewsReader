@@ -52,7 +52,8 @@ public class CommentActivityTest {
         return activity;
     }
 
-    @Test public void testNullComment(){
+    @Test
+    public void testNullComment(){
         launchActivity(null);
         onView(withId(R.id.no_comment)).check(matches(isDisplayed()));
         onView(withId(R.id.no_comment)).check(matches(withText("No Comment")));
@@ -89,6 +90,7 @@ public class CommentActivityTest {
         Intent intent = new Intent();
         intent.putExtra(CommentActivity.COMMENT_LIST,createCommentIds());
         Activity activity = launchActivity(intent);
+        onView(withText(context.getString(R.string.comment_text)+" 0")).check(matches(isDisplayed()));
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         onView(withText(context.getString(R.string.comment_text)+" 0")).check(matches(isDisplayed()));
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -100,8 +102,8 @@ public class CommentActivityTest {
 
         ActivityTestRule<CommentActivity> activityTestRule = new ActivityTestRule<CommentActivity>(CommentActivity.class, true, false){
             @Override
-            protected void afterActivityLaunched() {
-                super.afterActivityLaunched();
+            protected void beforeActivityLaunched() {
+                super.beforeActivityLaunched();
                 CommentProvider.getInstance().disconnect();
             }
         };

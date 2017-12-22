@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class CommentAdapterActivity extends AppCompatActivity implements CommentAdapter.Callback{
 
     public CommentAdapter adapter;
-    private ArrayList<CommentItem> commentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,17 +22,12 @@ public class CommentAdapterActivity extends AppCompatActivity implements Comment
     }
 
     public void setCommentItem(ArrayList<CommentItem> commentItem){
-        this.commentItem = commentItem;
+        ArrayList<CommentItem> commentItem1 = commentItem;
         adapter = new CommentAdapter(commentItem,this);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.commentList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void requestComment(final int position, CommentItem item) {
-        commentItem.get(position).by = "by"+position;
     }
 
     @Override

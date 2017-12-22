@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -54,22 +58,33 @@ public class CommentData implements CommentModel {
         return new ArrayList<>(data.values());
     }
 
-    public void getItem(final int commentId, final GetItemCallback callback) {
+    public void getItems(final GetItemCallback callback){
 
-        api.getCommentItem(commentId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Consumer<CommentItem>() {
-                @Override
-                public void accept(CommentItem commentItem) throws Exception {
-                    data.put(commentId, commentItem);
-                    callback.onResponse(commentItem);
-                }
-            }, new Consumer<Throwable>() {
-                @Override
-                public void accept(Throwable throwable) throws Exception {
-                    callback.onErrorResponse(throwable);
-                }
-            });
+        Observable<Integer> observable = Observable.fromArray(data.keySet().toArray(new Integer[data.keySet().size()]));
+
+        observable.concatMap(new Function<Integer, ObservableSource<CommentItem>>() {
+            @Override
+            public ObservableSource<CommentItem> apply(Integer integer) throws Exception {
+                return api.getCommentItem(integer)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        }).filter(new Predicate<CommentItem>() {
+            @Override
+            public boolean test(CommentItem commentItem) throws Exception {
+                return commentItem.by != null && !commentItem.by.equals("");
+            }
+        }).subscribe(new Consumer<CommentItem>() {
+            @Override
+            public void accept(CommentItem commentItem) throws Exception {
+                data.put(commentItem.id, commentItem);
+                callback.onResponse(commentItem);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                callback.onErrorResponse(throwable);
+            }
+        });
     }
 }

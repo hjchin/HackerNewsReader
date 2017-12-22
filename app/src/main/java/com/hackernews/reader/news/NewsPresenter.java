@@ -1,8 +1,6 @@
 package com.hackernews.reader.news;
 
 
-import android.support.test.espresso.IdlingRegistry;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.util.Log;
 
