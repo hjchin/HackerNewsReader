@@ -1,7 +1,11 @@
 package com.hackernews.reader.news;
 
 
-import com.hackernews.reader.BasePresenter;
+import android.support.test.espresso.IdlingRegistry;
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.idling.CountingIdlingResource;
+import android.util.Log;
+
 import com.hackernews.reader.data.news.NewsModel;
 import com.hackernews.reader.data.news.NewsItem;
 
@@ -12,14 +16,17 @@ import java.util.ArrayList;
  *
  */
 
-class NewsPresenter implements BasePresenter{
+class NewsPresenter{
 
     private final NewsView view;
     private final NewsModel model;
+    private final CountingIdlingResource idlingResource;
+    private boolean toDecrease = false;
 
-    NewsPresenter(NewsModel model, NewsView view){
+    NewsPresenter(NewsModel model, NewsView view, CountingIdlingResource idlingResource){
         this.model = model;
         this.view = view;
+        this.idlingResource = idlingResource;
     }
 
     ArrayList<NewsItem> getData(){
@@ -27,40 +34,56 @@ class NewsPresenter implements BasePresenter{
     }
 
     void restoreState(ArrayList<NewsItem>  value){
+
+        idlingResource.increment();
+        toDecrease = true;
+
         model.fill(value);
-        view.fillAdapter(getData());
+
+        ArrayList<NewsItem> list = model.getImmutableList();
+        for(NewsItem item : list){
+            view.addToAdapter(item);
+            if(toDecrease){
+                idlingResource.decrement();
+                toDecrease = false;
+            }
+        }
     }
 
     void loadNews(){
 
         view.showProgressBar();
 
-        model.getIds(new NewsModel.GetIdsCallback() {
-            @Override
-            public void onResponse(ArrayList<NewsItem> newsItems) {
-                view.fillAdapter(newsItems);
-            }
+        idlingResource.increment();
+        toDecrease = true;
 
-            @Override
-            public void onErrorResponse(Throwable error) {
-                view.showError(error);
-            }
-        });
-    }
-
-    @Override
-    public void loadItem(final int newsId, final int position){
-
-        model.getItem(newsId, new NewsModel.GetNewsItemCallback() {
+        model.getItems(new NewsModel.GetNewsItemCallback() {
             @Override
             public void onResponse(NewsItem newsItem) {
-                view.refreshItem(position, newsItem);
+                Log.i("news item","news item :"+String.valueOf(newsItem.id));
+                view.addToAdapter(newsItem);
+                if(toDecrease){
+                    idlingResource.decrement();
+                    toDecrease = false;
+                }
             }
 
             @Override
             public void onErrorResponse(Throwable throwable) {
+                Log.i("news item","news item : error");
                 view.showError(throwable);
+                if(toDecrease){
+                    idlingResource.decrement();
+                    toDecrease = false;
+                }
             }
         });
     }
+
+    void refreshNews(){
+        model.cancel();
+        loadNews();
+    }
+
+
 }

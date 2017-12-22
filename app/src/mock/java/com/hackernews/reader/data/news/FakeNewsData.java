@@ -2,6 +2,7 @@ package com.hackernews.reader.data.news;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.ContactsContract;
 
 import com.hackernews.reader.data.FakeData;
 
@@ -18,6 +19,7 @@ public class FakeNewsData implements NewsModel {
 
     Map<Integer, NewsItem> data;
     private boolean connect = true;
+    private ArrayList<DataRunnable> dataRunnable;
 
     @Override
     public ArrayList<NewsItem> getImmutableList() {
@@ -34,28 +36,20 @@ public class FakeNewsData implements NewsModel {
     }
 
     @Override
-    public void getIds(final GetIdsCallback callback) {
+    public void getItems(final GetNewsItemCallback callback) {
 
         if(connect){
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    data = new LinkedHashMap<>();
-                    for(int i = 0; i< FakeData.newsItems.size(); i++){
-                        NewsItem item = new NewsItem();
-                        item.id = FakeData.newsItems.get(i).id;
-                        data.put(item.id,item);
-                    }
 
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+            if(data == null){
+                data = new LinkedHashMap<>();
+            }
 
-                    callback.onResponse(new ArrayList<>(data.values()));
-                }
-            });
+            dataRunnable = new ArrayList<>();
+            for(final Map.Entry<Integer, NewsItem> item: FakeData.newsItems.entrySet()){
+                DataRunnable run = new DataRunnable(data, item.getValue(), callback);
+                dataRunnable.add(run);
+                new Handler(Looper.getMainLooper()).postDelayed(run, 500);
+            }
 
             return;
         }
@@ -63,50 +57,19 @@ public class FakeNewsData implements NewsModel {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 callback.onErrorResponse(new Throwable());
             }
         });
+
     }
 
     @Override
-    public void getItem(final int newsId, final GetNewsItemCallback callback) {
-
-        if(connect){
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-
-                    NewsItem item = data.get(newsId);
-                    NewsItem fake = FakeData.newsItems.get(newsId);
-
-                    item.by = fake.by;
-                    item.descendants = fake.descendants;
-                    item.kids = fake.kids;
-                    item.score = fake.score;
-                    item.time = fake.time;
-                    item.title = fake.title;
-                    item.type = fake.type;
-                    item.url = fake.url;
-
-                    data.put(newsId,item);
-                    callback.onResponse(item);
-                }
-            });
-            return;
-        }
-
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                callback.onErrorResponse(new Throwable());
+    public void cancel() {
+        if(dataRunnable != null){
+            for(DataRunnable run : dataRunnable){
+                run.cancel();
             }
-        });
-
+        }
     }
 
     @Override
@@ -117,5 +80,31 @@ public class FakeNewsData implements NewsModel {
     @Override
     public void connect() {
         connect = true;
+    }
+
+    static class DataRunnable implements Runnable{
+
+        Map<Integer, NewsItem> data;
+        NewsItem item;
+        GetNewsItemCallback callback;
+        boolean respond = true;
+
+        DataRunnable(Map data, NewsItem item, GetNewsItemCallback callback){
+            this.data = data;
+            this.item = item;
+            this.callback = callback;
+        }
+
+        @Override
+        public void run() {
+            data.put(item.id,item);
+            if(respond) {
+                callback.onResponse(item);
+            }
+        }
+
+        public void cancel(){
+            respond = false;
+        }
     }
 }

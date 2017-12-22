@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by HJ Chin on 28/11/2017.
@@ -19,6 +23,7 @@ public class NewsData implements NewsModel {
 
     private Map<Integer, NewsItem> data = new LinkedHashMap<>();
     private HackerNewsApi api;
+    private Disposable disposable;
 
     NewsData(HackerNewsApi api){
         this.api = api;
@@ -35,46 +40,41 @@ public class NewsData implements NewsModel {
         }
     }
 
-    public void getIds(final GetIdsCallback callback){
-
-        Call<Integer[]> call = api.getTopStoriesId();
-        call.enqueue(new Callback<Integer[]>() {
-            @Override
-            public void onResponse(Call<Integer[]> call, Response<Integer[]> response) {
-
-                data = new LinkedHashMap<>();
-                for (Integer i : response.body()){
-                    NewsItem newsItem = new NewsItem();
-                    newsItem.id = i;
-                    data.put(i, newsItem);
+    public void getItems(final GetNewsItemCallback callback){
+        disposable = api.getTopStoriesId()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .concatMap(new Function<Integer[], ObservableSource<Integer>>() {
+                @Override
+                public ObservableSource<Integer> apply(Integer[] integers) throws Exception {
+                    return Observable.fromArray(integers);
                 }
-
-                callback.onResponse(getImmutableList());
-            }
-
-            @Override
-            public void onFailure(Call<Integer[]> call, Throwable t) {
-                callback.onErrorResponse(t);
-            }
-        });
-
+            }).concatMap(new Function<Integer, ObservableSource<NewsItem>>() {
+                @Override
+                public ObservableSource<NewsItem> apply(Integer integer) throws Exception {
+                    return api.getNews(integer).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                }
+            }).subscribe(new Consumer<NewsItem>() {
+                    @Override
+                    public void accept(NewsItem newsItem) throws Exception {
+                            data.put(newsItem.id,newsItem);
+                            callback.onResponse(newsItem);
+                    }
+                },
+                new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        callback.onErrorResponse(throwable);
+                    }
+                }
+            );
     }
 
-    public void getItem(int newsId, final GetNewsItemCallback callback){
-
-        api.getNews(newsId).enqueue(new Callback<NewsItem>() {
-            @Override
-            public void onResponse(Call<NewsItem> call, Response<NewsItem> response) {
-                NewsItem newsItem = response.body();
-                data.put(newsItem.id,newsItem);
-                callback.onResponse(newsItem);
-            }
-
-            @Override
-            public void onFailure(Call<NewsItem> call, Throwable t) {
-                callback.onErrorResponse(t);
-            }
-        });
+    @Override
+    public void cancel(){
+        if(disposable!=null){
+            disposable.dispose();
+        }
     }
 
     @Override

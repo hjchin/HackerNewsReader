@@ -23,6 +23,6 @@ public interface NewsModel extends BaseModel {
 
     ArrayList<NewsItem> getImmutableList();
     void fill(ArrayList<NewsItem> value);
-    void getIds(GetIdsCallback callback);
-    void getItem(int newsId, GetNewsItemCallback callback);
+    void getItems(GetNewsItemCallback callback);
+    void cancel();
 }

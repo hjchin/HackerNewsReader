@@ -46,7 +46,7 @@ public class CommentActivityTest {
     }
 
     private Activity launchActivity(Intent intent){
-        CommentProvider.getInstance(null).connect();
+        CommentProvider.getInstance().connect();
         CommentActivity activity = activityTestRule.launchActivity(intent);
         IdlingRegistry.getInstance().register(activity.getIdlingResource());
         return activity;
@@ -102,7 +102,7 @@ public class CommentActivityTest {
             @Override
             protected void afterActivityLaunched() {
                 super.afterActivityLaunched();
-                CommentProvider.getInstance(null).disconnect();
+                CommentProvider.getInstance().disconnect();
             }
         };
 
@@ -113,7 +113,7 @@ public class CommentActivityTest {
 
         onView(withId(R.id.retry_button)).check(matches(isDisplayed()));
 
-        CommentProvider.getInstance(null).connect();
+        CommentProvider.getInstance().connect();
 
         onView(withId(R.id.retry_button)).perform(click());
         onView(withId(R.id.comment_list)).check(matches(isDisplayed()));

@@ -24,9 +24,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return data.get(i);
     }
 
-    public void setData(int position, NewsItem item) {
-        data.set(position,item);
-        notifyItemChanged(position);
+    public void addItem(NewsItem item) {
+        data.add(item);
+        notifyItemInserted(data.size()-1);
+    }
+
+    public void clear() {
+        data.clear();
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -59,7 +64,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     public interface Callback{
         void onItemClick(int position);
-        void requestNews(NewsItem newsItem, int position);
     }
 
     public NewsAdapter(ArrayList<NewsItem> data, Callback callback){
@@ -77,11 +81,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void onBindViewHolder(final NewsAdapter.ViewHolder holder, int position) {
 
         NewsItem newsItem = data.get(position);
-
-        if(newsItem.title == null){
-            callback.requestNews(newsItem, holder.getAdapterPosition());
-            return;
-        }
 
         holder.no.setText(String.valueOf(position+1)+".");
         holder.title.setText(newsItem.title);

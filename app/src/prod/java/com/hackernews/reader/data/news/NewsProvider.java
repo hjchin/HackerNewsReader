@@ -1,7 +1,5 @@
 package com.hackernews.reader.data.news;
 
-import android.content.Context;
-
 import com.hackernews.reader.data.HttpClient;
 
 /**
@@ -12,7 +10,7 @@ public class NewsProvider {
 
     private static NewsData newsData;
 
-    public static NewsData getInstance(Context context) {
+    public static NewsData getInstance() {
         if(newsData == null){
             newsData = new NewsData(HttpClient.getInstance().getHackerNewsApi());
         }

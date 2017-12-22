@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by HJ Chin on 30/11/2017.
@@ -56,18 +56,20 @@ public class CommentData implements CommentModel {
 
     public void getItem(final int commentId, final GetItemCallback callback) {
 
-        api.getCommentItem(commentId).enqueue(new Callback<CommentItem>() {
-            @Override
-            public void onResponse(Call<CommentItem> call, Response<CommentItem> response) {
-                CommentItem item = response.body();
-                data.put(commentId,item);
-                callback.onResponse(item);
-            }
-
-            @Override
-            public void onFailure(Call<CommentItem> call, Throwable t) {
-                callback.onErrorResponse(t);
-            }
-        });
+        api.getCommentItem(commentId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Consumer<CommentItem>() {
+                @Override
+                public void accept(CommentItem commentItem) throws Exception {
+                    data.put(commentId, commentItem);
+                    callback.onResponse(commentItem);
+                }
+            }, new Consumer<Throwable>() {
+                @Override
+                public void accept(Throwable throwable) throws Exception {
+                    callback.onErrorResponse(throwable);
+                }
+            });
     }
 }

@@ -11,7 +11,7 @@ public class NewsProvider{
 
     private static NewsModel fakeNewsData;
 
-    public static NewsModel getInstance(Context context) {
+    public static NewsModel getInstance() {
         if(fakeNewsData == null){
             fakeNewsData = new FakeNewsData();
         }

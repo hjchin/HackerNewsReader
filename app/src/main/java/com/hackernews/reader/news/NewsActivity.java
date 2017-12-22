@@ -35,7 +35,7 @@ public class NewsActivity extends AppCompatActivity implements
     private NewsPresenter presenter;
 
     @Nullable
-    private final CountingIdlingResource idlingResource = new CountingIdlingResource("countingIdleResource");
+    private static CountingIdlingResource idlingResource = new CountingIdlingResource("countingIdleResource");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +51,12 @@ public class NewsActivity extends AppCompatActivity implements
         UILoader = new UILoader(this, loaderView, recyclerView);
         UILoader.showLoader();
 
-        presenter = new NewsPresenter(NewsProvider.getInstance(getApplicationContext()),this);
+        presenter = new NewsPresenter(NewsProvider.getInstance(),this, idlingResource);
 
         if(savedInstanceState == null){
-            idlingResource.increment();
             presenter.loadNews();
         }else{
             ArrayList<NewsItem> newsItems = savedInstanceState.getParcelableArrayList(NEWS_ITEM);
-            idlingResource.increment();
             presenter.restoreState(newsItems);
         }
     }
@@ -77,15 +75,10 @@ public class NewsActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void requestNews(NewsItem item, int position) {
-        idlingResource.increment();
-        presenter.loadItem(item.id, position);
-    }
-
-    @Override
     public void onRefresh() {
-        idlingResource.increment();
-        presenter.loadNews();
+        newsAdapter.clear();
+        newsAdapter = null;
+        presenter.refreshNews();
     }
 
     @Override
@@ -94,46 +87,40 @@ public class NewsActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void fillAdapter(ArrayList<NewsItem> item) {
-
+    public void addToAdapter(NewsItem item) {
         if(swipeRefresh.isRefreshing()){
             swipeRefresh.setRefreshing(false);
         }
 
-        newsAdapter = new NewsAdapter(item, this);
-        recyclerView.setAdapter(newsAdapter);
-        UILoader.showContent();
-        idlingResource.decrement();
+        if(newsAdapter == null){
+            ArrayList<NewsItem> newsItem = new ArrayList<>();
+            newsItem.add(item);
+            newsAdapter = new NewsAdapter(newsItem, this);
+            recyclerView.setAdapter(newsAdapter);
+            UILoader.showContent();
+        }else{
+            newsAdapter.addItem(item);
+        }
     }
 
     @Override
     public void showError(Throwable throwable) {
         swipeRefresh.setVisibility(View.GONE);
+
         if(swipeRefresh.isRefreshing()){
             swipeRefresh.setRefreshing(false);
         }
 
         String message = "Error loading news";
-
         UILoader.showLoadError(message, new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
                 swipeRefresh.setVisibility(View.VISIBLE);
-                idlingResource.increment();
                 presenter.loadNews();
             }
         });
-
-        idlingResource.decrement();
     }
-
-    @Override
-    public void refreshItem(int position, NewsItem item) {
-        newsAdapter.setData(position, item);
-        idlingResource.decrement();
-    }
-
 
     @VisibleForTesting
     @NonNull

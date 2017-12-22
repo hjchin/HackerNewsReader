@@ -3,7 +3,7 @@ package com.hackernews.reader.data;
 import com.hackernews.reader.data.comment.CommentItem;
 import com.hackernews.reader.data.news.NewsItem;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -15,11 +15,11 @@ import retrofit2.http.Path;
 public interface HackerNewsApi {
 
     @GET("/v0/topstories.json")
-    Call<Integer[]> getTopStoriesId();
+    Observable<Integer[]> getTopStoriesId();
 
     @GET("/v0/item/{newsId}.json")
-    Call<NewsItem> getNews(@Path("newsId") int newsId);
+    Observable<NewsItem> getNews(@Path("newsId") int newsId);
 
     @GET("/v0/item/{commentId}.json")
-    Call<CommentItem> getCommentItem(@Path("commentId") int commentId);
+    Observable<CommentItem> getCommentItem(@Path("commentId") int commentId);
 }

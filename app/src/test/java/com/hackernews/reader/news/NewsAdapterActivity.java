@@ -34,9 +34,4 @@ public class NewsAdapterActivity extends AppCompatActivity implements NewsAdapte
     public void onItemClick(int position) {
 
     }
-
-    @Override
-    public void requestNews(NewsItem newsItem, int position) {
-    }
-
 }

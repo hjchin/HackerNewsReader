@@ -11,7 +11,7 @@ public class CommentProvider {
 
     private static CommentModel commentData;
 
-    public static CommentModel getInstance(Context context) {
+    public static CommentModel getInstance() {
         if(commentData == null){
             commentData = new FakeCommentData();
         }

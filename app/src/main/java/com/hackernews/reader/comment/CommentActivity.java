@@ -43,7 +43,7 @@ public class CommentActivity extends AppCompatActivity implements
         loaderContainer = findViewById(R.id.loading_container);
         UILoader = new UILoader(this, loaderContainer, commentContainer);
 
-        presenter = new CommentPresenter(CommentProvider.getInstance(getApplicationContext()), this);
+        presenter = new CommentPresenter(CommentProvider.getInstance(), this);
 
         commentAdapter = new CommentAdapter(presenter.getData(), this);
         commentContainer.setAdapter(commentAdapter);

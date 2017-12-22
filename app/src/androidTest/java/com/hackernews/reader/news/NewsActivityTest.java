@@ -48,8 +48,9 @@ public class NewsActivityTest {
         @Override
         protected void beforeActivityLaunched() {
             super.beforeActivityLaunched();
-            NewsProvider.getInstance(null).connect();
+            NewsProvider.getInstance().connect();
         }
+
     };
 
     private Context context;
@@ -75,6 +76,10 @@ public class NewsActivityTest {
     @Test
     public void testScroll(){
         Activity activity = launchActivity();
+
+        //ensure the UI is ready
+        onView(withText("title 0")).check(matches(isDisplayed()));
+
         NewsAdapter newsAdapter = (NewsAdapter)((RecyclerView)activity.findViewById(R.id.news)).getAdapter();
         int position = ThreadLocalRandom.current().nextInt(0, newsAdapter.getItemCount());
         onView(withId(R.id.news)).perform(RecyclerViewActions.scrollToPosition(position));
@@ -84,6 +89,10 @@ public class NewsActivityTest {
     @Test
     public void testRotateScreen(){
         Activity activity = launchActivity();
+
+        //ensure the UI is ready
+        onView(withText("title 0")).check(matches(isDisplayed()));
+
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         onView(withId(R.id.news)).check(matches(isDisplayed()));
         onView(withText("title 0")).check(matches(isDisplayed()));
@@ -108,35 +117,29 @@ public class NewsActivityTest {
             @Override
             protected void beforeActivityLaunched() {
                 super.beforeActivityLaunched();
-                (NewsProvider.getInstance(null)).disconnect();
+                (NewsProvider.getInstance()).disconnect();
             }
         };
 
         activityTestRule.launchActivity(null);
         onView(withId(R.id.retry_button)).check(matches(isDisplayed()));
 
-        (NewsProvider.getInstance(null)).connect();
+        (NewsProvider.getInstance()).connect();
         onView(withId(R.id.retry_button)).perform(click());
         onView(withId(R.id.news)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testOfflineWhileScrolling(){
-        Activity activity = launchActivity();
-        NewsProvider.getInstance(null).disconnect();
-        NewsAdapter newsAdapter = (NewsAdapter)((RecyclerView)activity.findViewById(R.id.news)).getAdapter();
-        onView(withId(R.id.news)).perform(RecyclerViewActions.scrollToPosition(newsAdapter.getItemCount()-1));
-        onView(withId(R.id.retry_button)).check(matches(isDisplayed()));
-        activityTestRule.finishActivity();
-    }
-
-    @Test
     public void testOfflineWhileRefreshing(){
         launchActivity();
-        (NewsProvider.getInstance(null)).disconnect();
+
+        //ensure the UI is ready
+        onView(withText("title 0")).check(matches(isDisplayed()));
+
+        (NewsProvider.getInstance()).disconnect();
+
         onView(withId(R.id.swipe_refresh)).perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(85)));
         onView(withId(R.id.retry_button)).check(matches(isDisplayed()));
-        activityTestRule.finishActivity();
     }
 
     @Test

@@ -28,4 +28,5 @@ task clean(type: Delete) {
 ext{
     supportLibraryVersion = "25.4.0"
     espressoVersion = "3.0.1"
+    retrofitVersion = "2.3.0"
 }
