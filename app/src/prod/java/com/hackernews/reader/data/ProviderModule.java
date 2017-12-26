@@ -1,4 +1,4 @@
-package com.hackernews.reader.di;
+package com.hackernews.reader.data;
 
 import com.hackernews.reader.data.comment.CommentModel;
 import com.hackernews.reader.data.comment.CommentProvider;
@@ -24,8 +24,7 @@ public class ProviderModule {
     }
 
     @Provides
-    @Singleton
     public CommentModel provideCommentModel(){
-        return CommentProvider.getInstance();
+        return CommentProvider.newInstance();
     }
 }

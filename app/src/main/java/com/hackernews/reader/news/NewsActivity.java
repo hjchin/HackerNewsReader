@@ -14,12 +14,15 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import com.hackernews.reader.NewsReaderApplication;
 import com.hackernews.reader.comment.CommentActivity;
 import com.hackernews.reader.data.news.NewsItem;
 
 import com.hackernews.reader.R;
-import com.hackernews.reader.data.news.NewsProvider;
+import com.hackernews.reader.data.news.NewsModel;
 import com.hackernews.reader.util.UILoader;
+
+import javax.inject.Inject;
 
 
 public class NewsActivity extends AppCompatActivity implements
@@ -34,12 +37,18 @@ public class NewsActivity extends AppCompatActivity implements
     private SwipeRefreshLayout swipeRefresh;
     private NewsPresenter presenter;
 
+    @Inject
+    public NewsModel newsModel;
+
     @Nullable
     private static CountingIdlingResource idlingResource = new CountingIdlingResource("countingIdleResource");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ((NewsReaderApplication)getApplication()).getAppComponent().inject(this);
+
         setContentView(R.layout.activity_news);
 
         View loaderView = findViewById(R.id.loading_container);
@@ -51,7 +60,7 @@ public class NewsActivity extends AppCompatActivity implements
         UILoader = new UILoader(this, loaderView, recyclerView);
         UILoader.showLoader();
 
-        presenter = new NewsPresenter(NewsProvider.getInstance(),this, idlingResource);
+        presenter = new NewsPresenter(newsModel,this, idlingResource);
 
         if(savedInstanceState == null){
             presenter.loadNews();

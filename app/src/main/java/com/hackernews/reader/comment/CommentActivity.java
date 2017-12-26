@@ -12,12 +12,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.hackernews.reader.NewsReaderApplication;
 import com.hackernews.reader.data.comment.CommentItem;
 import com.hackernews.reader.R;
-import com.hackernews.reader.data.comment.CommentProvider;
+import com.hackernews.reader.data.comment.CommentModel;
 import com.hackernews.reader.util.UILoader;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 public class CommentActivity extends AppCompatActivity implements
         CommentAdapter.Callback,
@@ -29,6 +32,9 @@ public class CommentActivity extends AppCompatActivity implements
     private UILoader UILoader;
     private CommentAdapter commentAdapter;
 
+    @Inject
+    public CommentModel commentModel;
+
     @Nullable
     private static CountingIdlingResource idlingResource = new CountingIdlingResource("commentIdleResource");
     private CommentPresenter presenter;
@@ -39,13 +45,15 @@ public class CommentActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_comment);
         setTitle(R.string.comment);
 
+        ((NewsReaderApplication)getApplication()).getAppComponent().inject(this);
+
         RecyclerView commentContainer = (RecyclerView) findViewById(R.id.comment_list);
         commentContainer.setLayoutManager(new LinearLayoutManager(this));
 
         loaderContainer = findViewById(R.id.loading_container);
         UILoader = new UILoader(this, loaderContainer, commentContainer);
 
-        presenter = new CommentPresenter(CommentProvider.newInstance(), this, idlingResource);
+        presenter = new CommentPresenter(commentModel, this, idlingResource);
 
         commentAdapter = new CommentAdapter(new ArrayList<CommentItem>(), this);
         commentContainer.setAdapter(commentAdapter);

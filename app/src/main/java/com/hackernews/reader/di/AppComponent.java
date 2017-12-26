@@ -1,8 +1,19 @@
 package com.hackernews.reader.di;
 
+import com.hackernews.reader.comment.CommentActivity;
+import com.hackernews.reader.data.ProviderModule;
+import com.hackernews.reader.news.NewsActivity;
+
+import javax.inject.Singleton;
+
+import dagger.Component;
+
 /**
  * Created by HJ Chin on 23/12/2017.
  */
-
-public class AppComponent {
+@Singleton
+@Component(modules={ProviderModule.class})
+public interface AppComponent{
+    void inject(NewsActivity activity);
+    void inject(CommentActivity activity);
 }
