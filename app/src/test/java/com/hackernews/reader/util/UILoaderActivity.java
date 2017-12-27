@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.hackernews.reader.R;
-import com.hackernews.reader.util.UILoader;
 
 /**
  * Created by HJ Chin on 15/11/2017.
@@ -21,7 +20,7 @@ public class UILoaderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loader_test);
         View loadingContainer = findViewById(R.id.loading_container);
-        View contentContainer = findViewById(R.id.news);
+        View contentContainer = findViewById(R.id.recyclerViewNews);
         uiLoader = new UILoader(this, loadingContainer,contentContainer);
     }
 }

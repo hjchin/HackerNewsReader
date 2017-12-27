@@ -1,16 +1,15 @@
 package com.hackernews.reader.comment;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.hackernews.reader.data.comment.CommentItem;
 import com.hackernews.reader.R;
+import com.hackernews.reader.databinding.CommentItemBinding;
 import com.hackernews.reader.util.Util;
-
-import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 
@@ -50,9 +49,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_item, parent,false);
-        //view.findViewById(R.id.indicator).setVisibility(View.INVISIBLE);
-        return new ViewHolder(view);
+        CommentItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.comment_item,parent,false);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -62,25 +60,25 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         holder.itemView.findViewById(R.id.indicator).setVisibility(View.VISIBLE);
 
-        holder.by.setText(commentItem.by);
-        holder.time.setText(Util.getPrettyTime(commentItem.time));
+        holder.binding.by.setText(commentItem.by);
+        holder.binding.time.setText(Util.getPrettyTime(commentItem.time));
 
         if(commentItem.text != null)
-            holder.comment.setHtml(commentItem.text.trim());
+            holder.binding.comment.setHtml(commentItem.text.trim());
         else
-            holder.comment.setHtml("");
+            holder.binding.comment.setHtml("");
 
         if(commentItem.kids == null || commentItem.kids.length == 0){
-            holder.viewKid.setVisibility(View.GONE);
+            holder.binding.kid.setVisibility(View.GONE);
         }else{
-            holder.viewKid.setVisibility(View.VISIBLE);
+            holder.binding.kid.setVisibility(View.VISIBLE);
             if(commentItem.kids.length > 1){
-                holder.viewKid.setText("View "+ commentItem.kids.length+" replies");
+                holder.binding.kid.setText("View "+ commentItem.kids.length+" replies");
             }else{
-                holder.viewKid.setText("View 1 reply");
+                holder.binding.kid.setText("View 1 reply");
             }
 
-            holder.viewKid.setOnClickListener(new View.OnClickListener(){
+            holder.binding.kid.setOnClickListener(new View.OnClickListener(){
 
                 @Override
                 public void onClick(View view) {
@@ -97,19 +95,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     static class ViewHolder extends RecyclerView.ViewHolder{
 
-        final TextView by;
-        final TextView time;
-        final HtmlTextView comment;
-        final TextView viewKid;
         final View itemView;
+        CommentItemBinding binding;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            by = (TextView)itemView.findViewWithTag("by");
-            time = (TextView)itemView.findViewWithTag("time");
-            comment = (HtmlTextView)itemView.findViewWithTag("comment");
-            viewKid = (TextView)itemView.findViewWithTag("kid");
-            this.itemView = itemView;
+        ViewHolder(CommentItemBinding binding){
+            super(binding.getRoot());
+            this.itemView = binding.getRoot();
+            this.binding = binding;
         }
     }
 }

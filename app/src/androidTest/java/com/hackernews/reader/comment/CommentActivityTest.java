@@ -80,8 +80,8 @@ public class CommentActivityTest {
         Intent intent = new Intent();
         intent.putExtra(CommentActivity.COMMENT_LIST,createCommentIds());
         launchActivity(intent);
-        onView(withId(R.id.comment_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.kid)));
-        onView(withId(R.id.comment_list)).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerViewComment)).perform(RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.kid)));
+        onView(withId(R.id.recyclerViewComment)).check(matches(isDisplayed()));
         onView(withText(context.getString(R.string.comment_text)+ " 0")).check(matches(isDisplayed()));
     }
 
@@ -111,7 +111,7 @@ public class CommentActivityTest {
         CommentProvider.getInstance().connect();
 
         onView(withId(R.id.retry_button)).perform(click());
-        onView(withId(R.id.comment_list)).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerViewComment)).check(matches(isDisplayed()));
     }
 
     private int[] createCommentIds() {

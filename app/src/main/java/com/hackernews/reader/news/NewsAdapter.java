@@ -1,15 +1,16 @@
 package com.hackernews.reader.news;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import com.hackernews.reader.R;
 import com.hackernews.reader.data.news.NewsItem;
+import com.hackernews.reader.databinding.NewsItemBinding;
 import com.hackernews.reader.util.Util;
 
 
@@ -20,42 +21,29 @@ import com.hackernews.reader.util.Util;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    public NewsItem getItemAt(int i) {
+    NewsItem getItemAt(int i) {
         return data.get(i);
     }
 
-    public void addItem(NewsItem item) {
+    void addItem(NewsItem item) {
         data.add(item);
         notifyItemInserted(data.size()-1);
     }
 
-    public void clear() {
+    void clear() {
         data.clear();
         notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
 
-        final TextView no;
-        final TextView title;
-        final TextView source;
-        final TextView point;
-        final TextView author;
-        final TextView time;
-        final TextView comment;
-        final View itemView;
+        View itemView;
+        NewsItemBinding binding;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-
-            no = (TextView)itemView.findViewById(R.id.no);
-            title = (TextView)itemView.findViewById(R.id.title);
-            source = (TextView)itemView.findViewById(R.id.source);
-            point = (TextView)itemView.findViewById(R.id.point);
-            author = (TextView)itemView.findViewById(R.id.author);
-            time = (TextView)itemView.findViewById(R.id.time);
-            comment = (TextView)itemView.findViewById(R.id.comment);
-            this.itemView = itemView;
+        ViewHolder(NewsItemBinding binding){
+            super(binding.getRoot());
+            itemView = binding.getRoot();
+            this.binding = binding;
         }
     }
 
@@ -66,15 +54,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         void onItemClick(int position);
     }
 
-    public NewsAdapter(ArrayList<NewsItem> data, Callback callback){
+    NewsAdapter(ArrayList<NewsItem> data, Callback callback){
         this.data = data;
         this.callback = callback;
     }
 
     @Override
     public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);
-        return new ViewHolder(v);
+        NewsItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.news_item, parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -82,15 +70,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         NewsItem newsItem = data.get(position);
 
-        holder.no.setText(String.valueOf(position+1)+".");
-        holder.title.setText(newsItem.title);
+        holder.binding.no.setText(String.valueOf(position+1)+".");
+        holder.binding.title.setText(newsItem.title);
 
         String host = getHostName(newsItem.url);
         if(host.equals("")){
-            holder.source.setVisibility(View.GONE);
+            holder.binding.source.setVisibility(View.GONE);
         }else{
-            holder.source.setVisibility(View.VISIBLE);
-            holder.source.setText(" ("+host+")");
+            holder.binding.source.setVisibility(View.VISIBLE);
+            holder.binding.source.setText(" ("+host+")");
         }
 
         String points = "point";
@@ -98,11 +86,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             points += "s";
         }
 
-        holder.point.setText(newsItem.score+" "+points);
-        holder.author.setText(" by "+newsItem.by);
+        holder.binding.point.setText(newsItem.score+" "+points);
+        holder.binding.author.setText(" by "+newsItem.by);
 
         CharSequence value = Util.getPrettyTime(newsItem.time);
-        holder.time.setText(" "+value);
+        holder.binding.time.setText(" "+value);
 
         String comments;
         if(newsItem.kids == null){
@@ -113,7 +101,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             comments = newsItem.kids.length + " comment";
         }
 
-        holder.comment.setText(" | "+comments);
+        holder.binding.comment.setText(" | "+comments);
 
         holder.itemView.setOnClickListener(new View.OnClickListener(){
 

@@ -30,7 +30,7 @@ public class UILoaderTest {
           UILoaderActivity activity = Robolectric.setupActivity(UILoaderActivity.class);
           activity.uiLoader.showLoader();
           assertThat(1f, equalTo(activity.findViewById(R.id.loading_container).getAlpha()));
-          assertThat(0f, equalTo(activity.findViewById(R.id.news).getAlpha()));
+          assertThat(0f, equalTo(activity.findViewById(R.id.recyclerViewNews).getAlpha()));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class UILoaderTest {
         UILoaderActivity activity = Robolectric.setupActivity(UILoaderActivity.class);
         activity.uiLoader.showContent();
         assertThat(0f, equalTo(activity.findViewById(R.id.loading_container).getAlpha()));
-        assertThat(1f, equalTo(activity.findViewById(R.id.news).getAlpha()));
+        assertThat(1f, equalTo(activity.findViewById(R.id.recyclerViewNews).getAlpha()));
     }
 
     @Test public void testShowError() {

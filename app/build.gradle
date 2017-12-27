@@ -92,6 +92,10 @@ android {
             variant.setIgnore(true)
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {

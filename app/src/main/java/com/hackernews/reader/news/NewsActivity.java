@@ -1,6 +1,7 @@
 package com.hackernews.reader.news;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -9,7 +10,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ import com.hackernews.reader.data.news.NewsItem;
 
 import com.hackernews.reader.R;
 import com.hackernews.reader.data.news.NewsModel;
+import com.hackernews.reader.databinding.ActivityNewsBinding;
 import com.hackernews.reader.util.UILoader;
 
 import javax.inject.Inject;
@@ -32,10 +33,9 @@ public class NewsActivity extends AppCompatActivity implements
 
     private static final String NEWS_ITEM = "newsItem";
     private UILoader UILoader;
-    private RecyclerView recyclerView;
     private NewsAdapter newsAdapter;
-    private SwipeRefreshLayout swipeRefresh;
     private NewsPresenter presenter;
+    private ActivityNewsBinding binding;
 
     @Inject
     public NewsModel newsModel;
@@ -49,15 +49,11 @@ public class NewsActivity extends AppCompatActivity implements
 
         ((NewsReaderApplication)getApplication()).getAppComponent().inject(this);
 
-        setContentView(R.layout.activity_news);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_news);
+        binding.recyclerViewNews.setLayoutManager(new LinearLayoutManager(this));
+        binding.swipeRefresh.setOnRefreshListener(this);
 
-        View loaderView = findViewById(R.id.loading_container);
-        recyclerView = (RecyclerView)findViewById(R.id.news);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        swipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
-        swipeRefresh.setOnRefreshListener(this);
-
-        UILoader = new UILoader(this, loaderView, recyclerView);
+        UILoader = new UILoader(this, binding.loadingPage.loadingContainer, binding.recyclerViewNews);
         UILoader.showLoader();
 
         presenter = new NewsPresenter(newsModel,this, idlingResource);
@@ -97,15 +93,15 @@ public class NewsActivity extends AppCompatActivity implements
 
     @Override
     public void addToAdapter(NewsItem item) {
-        if(swipeRefresh.isRefreshing()){
-            swipeRefresh.setRefreshing(false);
+        if(binding.swipeRefresh.isRefreshing()){
+            binding.swipeRefresh.setRefreshing(false);
         }
 
         if(newsAdapter == null){
             ArrayList<NewsItem> newsItem = new ArrayList<>();
             newsItem.add(item);
             newsAdapter = new NewsAdapter(newsItem, this);
-            recyclerView.setAdapter(newsAdapter);
+            binding.recyclerViewNews.setAdapter(newsAdapter);
             UILoader.showContent();
         }else{
             newsAdapter.addItem(item);
@@ -114,10 +110,10 @@ public class NewsActivity extends AppCompatActivity implements
 
     @Override
     public void showError(Throwable throwable) {
-        swipeRefresh.setVisibility(View.GONE);
+        binding.swipeRefresh.setVisibility(View.GONE);
 
-        if(swipeRefresh.isRefreshing()){
-            swipeRefresh.setRefreshing(false);
+        if(binding.swipeRefresh.isRefreshing()){
+            binding.swipeRefresh.setRefreshing(false);
         }
 
         String message = "Error loading news";
@@ -125,7 +121,7 @@ public class NewsActivity extends AppCompatActivity implements
 
             @Override
             public void onClick(View view) {
-                swipeRefresh.setVisibility(View.VISIBLE);
+                binding.swipeRefresh.setVisibility(View.VISIBLE);
                 presenter.loadNews();
             }
         });

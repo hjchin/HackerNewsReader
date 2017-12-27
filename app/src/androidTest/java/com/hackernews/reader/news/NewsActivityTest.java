@@ -80,9 +80,9 @@ public class NewsActivityTest {
         //ensure the UI is ready
         onView(withText("title 0")).check(matches(isDisplayed()));
 
-        NewsAdapter newsAdapter = (NewsAdapter)((RecyclerView)activity.findViewById(R.id.news)).getAdapter();
+        NewsAdapter newsAdapter = (NewsAdapter)((RecyclerView)activity.findViewById(R.id.recyclerViewNews)).getAdapter();
         int position = ThreadLocalRandom.current().nextInt(0, newsAdapter.getItemCount());
-        onView(withId(R.id.news)).perform(RecyclerViewActions.scrollToPosition(position));
+        onView(withId(R.id.recyclerViewNews)).perform(RecyclerViewActions.scrollToPosition(position));
         onView(withText("title "+position)).check(matches(isDisplayed()));
     }
 
@@ -94,10 +94,10 @@ public class NewsActivityTest {
         onView(withText("title 0")).check(matches(isDisplayed()));
 
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        onView(withId(R.id.news)).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerViewNews)).check(matches(isDisplayed()));
         onView(withText("title 0")).check(matches(isDisplayed()));
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        onView(withId(R.id.news)).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerViewNews)).check(matches(isDisplayed()));
         onView(withText("title 0")).check(matches(isDisplayed()));
     }
 
@@ -126,7 +126,7 @@ public class NewsActivityTest {
 
         (NewsProvider.getInstance()).connect();
         onView(withId(R.id.retry_button)).perform(click());
-        onView(withId(R.id.news)).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerViewNews)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -146,7 +146,7 @@ public class NewsActivityTest {
     public void testClickNews(){
         IdlingRegistry.getInstance().register(CommentActivity.getIdlingResource());
         launchActivity();
-        onView(withId(R.id.news)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recyclerViewNews)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withText(context.getString(R.string.comment_text)+" 0")).check(matches(isDisplayed()));
     }
 
