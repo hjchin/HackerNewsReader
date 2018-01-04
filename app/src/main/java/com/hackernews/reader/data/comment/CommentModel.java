@@ -16,7 +16,7 @@ public interface CommentModel extends BaseModel {
         void onErrorResponse(Throwable throwable);
     }
 
-    ArrayList<CommentItem> getImmutableList();
+    ArrayList<CommentItem> getList();
     void fill(ArrayList<CommentItem> items);
     void fill(int[] commentIds);
     void getItems(final GetItemCallback callback);

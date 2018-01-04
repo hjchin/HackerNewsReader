@@ -33,7 +33,7 @@ public class CommentPresenter{
     }
 
     public ArrayList<CommentItem> getData(){
-        return data.getImmutableList();
+        return data.getList();
     }
 
     public void loadComemnts(int[] commentIds){

@@ -54,7 +54,7 @@ public class CommentData implements CommentModel {
 
     }
 
-    public ArrayList<CommentItem> getImmutableList() {
+    public ArrayList<CommentItem> getList() {
         return new ArrayList<>(data.values());
     }
 

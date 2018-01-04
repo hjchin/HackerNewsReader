@@ -2,6 +2,7 @@
 
 This sample project is to demostrate an android app built for https://github.com/HackerNews/API. It has 2 pages, top stories and comment. 
 
+## Objective
 The objective of the project is to demostrate:
 - implementation of MVP
 - unit test 
@@ -16,10 +17,11 @@ Coverage report is located at \app\build\reports\jacoco\jacocoTestReport\html\in
 
 Ensure that you have already turned off device animation before run the android test as documented [here](https://developer.android.com/training/testing/espresso/setup.html#set-up-environment).
 
+## Libraries
 Libraries used in this sample project:
 - Retrofit & Gson
 - Data Binding
-- RxJava and RxAndroid
+- RxJava & RxAndroid
 - Dagger
 - Mockito
 - Robolectric

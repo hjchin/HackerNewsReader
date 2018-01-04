@@ -31,7 +31,7 @@ public class CommentDataTest {
         HackerNewsApi api = mock(HackerNewsApi.class);
         CommentData commentData = new CommentData(api);
         commentData.fill(new int[]{0,1,2,3,4,5,6,7,8,9});
-        ArrayList<CommentItem> list = commentData.getImmutableList();
+        ArrayList<CommentItem> list = commentData.getList();
         assertEquals(10,list.size());
         for(int i=0;i<list.size();i++){
             assertEquals(i,list.get(i).id);
@@ -42,7 +42,7 @@ public class CommentDataTest {
         HackerNewsApi api = mock(HackerNewsApi.class);
         CommentData commentData = new CommentData(api);
         commentData.fill(commentItems);
-        ArrayList<CommentItem> list = commentData.getImmutableList();
+        ArrayList<CommentItem> list = commentData.getList();
         assertEquals(10,list.size());
         for(int i=0;i<list.size();i++){
             assertEquals(commentItems.get(i).id,list.get(i).id);

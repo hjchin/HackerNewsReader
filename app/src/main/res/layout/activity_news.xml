@@ -8,7 +8,7 @@
         tools:context="com.hackernews.reader.news.NewsActivity">
         <include
             layout="@layout/loading_page"
-            android:id="@+id/loadingPage"/>
+            android:id="@+id/loading_page"/>
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/recyclerViewNews">
+                android:id="@+id/recycler_view_news">
             </android.support.v7.widget.RecyclerView>
 
         </android.support.v4.widget.SwipeRefreshLayout>

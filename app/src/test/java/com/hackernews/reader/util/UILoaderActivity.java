@@ -20,7 +20,7 @@ public class UILoaderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loader_test);
         View loadingContainer = findViewById(R.id.loading_container);
-        View contentContainer = findViewById(R.id.recyclerViewNews);
+        View contentContainer = findViewById(R.id.recycler_view_news);
         uiLoader = new UILoader(this, loadingContainer,contentContainer);
     }
 }
