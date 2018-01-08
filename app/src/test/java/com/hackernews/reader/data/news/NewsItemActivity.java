@@ -3,7 +3,7 @@ package com.hackernews.reader.data.news;
 import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 
-import com.hackernews.reader.data.news.NewsItem;
+import com.hackernews.reader.news.model.NewsItem;
 
 
 public class NewsItemActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.hackernews.reader.news;
+package com.hackernews.reader.news.view;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import com.hackernews.reader.R;
-import com.hackernews.reader.data.news.NewsItem;
+import com.hackernews.reader.news.model.NewsItem;
 import com.hackernews.reader.databinding.NewsItemBinding;
 import com.hackernews.reader.util.Util;
 

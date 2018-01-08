@@ -14,8 +14,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.hackernews.reader.R;
-import com.hackernews.reader.comment.CommentActivity;
-import com.hackernews.reader.data.news.NewsProvider;
+import com.hackernews.reader.comment.view.CommentActivity;
+import com.hackernews.reader.data.FakeData;
+import com.hackernews.reader.data.WebServer;
+import com.hackernews.reader.news.view.NewsActivity;
+import com.hackernews.reader.news.view.NewsAdapter;
 
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -48,7 +51,12 @@ public class NewsActivityTest {
         @Override
         protected void beforeActivityLaunched() {
             super.beforeActivityLaunched();
-            NewsProvider.getInstance().connect();
+
+            try{
+                WebServer.init();
+            }catch (Exception e){
+                System.out.println("couldn't start server");
+            }
         }
 
     };
@@ -110,33 +118,36 @@ public class NewsActivityTest {
     }
 
     @Test
-    public void testOfflineAtStart(){
+    public void testLoadErrorAtStart(){
 
         ActivityTestRule<NewsActivity> activityTestRule =  new ActivityTestRule<NewsActivity>(NewsActivity.class, true,false){
 
             @Override
             protected void beforeActivityLaunched() {
                 super.beforeActivityLaunched();
-                (NewsProvider.getInstance()).disconnect();
+                WebServer.setReturnError(true);
             }
         };
 
         activityTestRule.launchActivity(null);
         onView(withId(R.id.retry_button)).check(matches(isDisplayed()));
 
-        (NewsProvider.getInstance()).connect();
+        WebServer.setReturnError(false);
         onView(withId(R.id.retry_button)).perform(click());
+
+        //ensure the UI is ready
+        onView(withText("title 0")).check(matches(isDisplayed()));
         onView(withId(R.id.recycler_view_news)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testOfflineWhileRefreshing(){
+    public void testLoadErrorWhileRefreshing(){
         launchActivity();
 
         //ensure the UI is ready
         onView(withText("title 0")).check(matches(isDisplayed()));
 
-        (NewsProvider.getInstance()).disconnect();
+        WebServer.setReturnError(true);
 
         onView(withId(R.id.swipe_refresh)).perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(85)));
         onView(withId(R.id.retry_button)).check(matches(isDisplayed()));
@@ -147,7 +158,7 @@ public class NewsActivityTest {
         IdlingRegistry.getInstance().register(CommentActivity.getIdlingResource());
         launchActivity();
         onView(withId(R.id.recycler_view_news)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withText(context.getString(R.string.comment_text)+" 0")).check(matches(isDisplayed()));
+        onView(withText(FakeData.commentItems.get(400).text)).check(matches(isDisplayed()));
     }
 
     public static ViewAction withCustomConstraints(final ViewAction action, final Matcher<View> constraints) {

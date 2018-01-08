@@ -2,6 +2,7 @@ package com.hackernews.reader.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -14,25 +15,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpClient implements HttpClientInterface {
 
-    private static HttpClient mInstance;
+    private static com.hackernews.reader.data.HttpClient instance;
     private Retrofit retrofit;
-    private String baseUrl = "https://hacker-news.firebaseio.com/";
 
     private HttpClient(){
     }
 
     public static synchronized HttpClient getInstance() {
-        if (mInstance == null) {
-            mInstance = new HttpClient();
+        if (instance == null) {
+            WebServer.init();
+            instance = new HttpClient();
         }
-        return mInstance;
+        return instance;
     }
 
     @Override
-    public Retrofit getClient() {
+    public Retrofit getClient(){
 
 
-        if( retrofit == null){
+        if(retrofit == null){
             Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
@@ -42,8 +43,8 @@ public class HttpClient implements HttpClientInterface {
             OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
             httpClientBuilder.addInterceptor(logging);
 
-            retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl(baseUrl)
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(WebServer.getMockServerUrl())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(httpClientBuilder.build())

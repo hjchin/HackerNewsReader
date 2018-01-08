@@ -11,10 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 @SuppressWarnings("ALL")
 public class HttpClientActivity extends AppCompatActivity {
 
-    HttpClient api;
+    com.hackernews.reader.data.HttpClient api;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        api = HttpClient.getInstance();
+        api = com.hackernews.reader.data.HttpClient.getInstance();
     }
 }

@@ -1,6 +1,6 @@
-package com.hackernews.reader.comment;
+package com.hackernews.reader.comment.view;
 
-import com.hackernews.reader.data.comment.CommentItem;
+import com.hackernews.reader.comment.model.CommentItem;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 
 @SuppressWarnings("ALL")
-interface CommentView {
+public interface CommentView {
     void fillAdapter(ArrayList<CommentItem> item);
     void showError(Throwable throwable);
     void addToAdapter(CommentItem item);

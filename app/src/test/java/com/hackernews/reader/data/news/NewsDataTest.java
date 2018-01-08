@@ -1,6 +1,8 @@
 package com.hackernews.reader.data.news;
 
 import com.hackernews.reader.data.HackerNewsApi;
+import com.hackernews.reader.news.model.NewsData;
+import com.hackernews.reader.news.model.NewsItem;
 
 import org.junit.Test;
 

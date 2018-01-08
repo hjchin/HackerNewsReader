@@ -1,4 +1,4 @@
-package com.hackernews.reader.news;
+package com.hackernews.reader.news.view;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -15,12 +15,13 @@ import android.view.View;
 import java.util.ArrayList;
 
 import com.hackernews.reader.NewsReaderApplication;
-import com.hackernews.reader.comment.CommentActivity;
-import com.hackernews.reader.data.news.NewsItem;
+import com.hackernews.reader.comment.view.CommentActivity;
+import com.hackernews.reader.news.model.NewsItem;
 
 import com.hackernews.reader.R;
-import com.hackernews.reader.data.news.NewsModel;
+import com.hackernews.reader.news.model.NewsModel;
 import com.hackernews.reader.databinding.ActivityNewsBinding;
+import com.hackernews.reader.news.presenter.NewsPresenter;
 import com.hackernews.reader.util.UILoader;
 
 import javax.inject.Inject;

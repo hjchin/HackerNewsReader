@@ -14,7 +14,10 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import com.hackernews.reader.R;
-import com.hackernews.reader.data.comment.CommentProvider;
+import com.hackernews.reader.comment.view.CommentActivity;
+import com.hackernews.reader.data.FakeData;
+import com.hackernews.reader.data.HttpClient;
+import com.hackernews.reader.data.WebServer;
 
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -43,7 +46,7 @@ public class CommentActivityTest {
     @Before
     public void setup(){
         context = InstrumentationRegistry.getTargetContext();
-        CommentProvider.initNormalConnection();
+        WebServer.init();
     }
 
     private Activity launchActivity(Intent intent){
@@ -72,7 +75,7 @@ public class CommentActivityTest {
         Intent intent = new Intent();
         intent.putExtra(CommentActivity.COMMENT_LIST,createCommentIds());
         launchActivity(intent);
-        onView(withText(context.getString(R.string.comment_text)+ " 0")).check(matches(isDisplayed()));
+        onView(withText(FakeData.commentItems.get(400).text)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -82,7 +85,7 @@ public class CommentActivityTest {
         launchActivity(intent);
         onView(withId(R.id.recyclerViewComment)).perform(RecyclerViewActions.actionOnItemAtPosition(0, clickChildViewWithId(R.id.kid)));
         onView(withId(R.id.recyclerViewComment)).check(matches(isDisplayed()));
-        onView(withText(context.getString(R.string.comment_text)+ " 0")).check(matches(isDisplayed()));
+        onView(withText(FakeData.commentItems.get(400).text)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -90,17 +93,21 @@ public class CommentActivityTest {
         Intent intent = new Intent();
         intent.putExtra(CommentActivity.COMMENT_LIST,createCommentIds());
         Activity activity = launchActivity(intent);
-        onView(withText(context.getString(R.string.comment_text)+" 0")).check(matches(isDisplayed()));
+        onView(withText(FakeData.commentItems.get(400).text)).check(matches(isDisplayed()));
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        onView(withText(context.getString(R.string.comment_text)+" 0")).check(matches(isDisplayed()));
+        onView(withText(FakeData.commentItems.get(400).text)).check(matches(isDisplayed()));
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        onView(withText(context.getString(R.string.comment_text)+" 0")).check(matches(isDisplayed()));
+        onView(withText(FakeData.commentItems.get(400).text)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testOffline(){
+    public void testLoadError(){
 
-        CommentProvider.initDisableConnection();
+        /*
+            Initialization
+         */
+        HttpClient.getInstance();
+        WebServer.setReturnError(true);
 
         Intent intent = new Intent();
         intent.putExtra(CommentActivity.COMMENT_LIST, createCommentIds());
@@ -108,14 +115,19 @@ public class CommentActivityTest {
 
         onView(withId(R.id.retry_button)).check(matches(isDisplayed()));
 
-        CommentProvider.getInstance().connect();
+        WebServer.setReturnError(true);
 
         onView(withId(R.id.retry_button)).perform(click());
         onView(withId(R.id.recyclerViewComment)).check(matches(isDisplayed()));
     }
 
     private int[] createCommentIds() {
-        return new int[]{0,1,2,3,4,5,6,7,8,9};
+        int[] idList = new int[FakeData.commentItems.keySet().size()];
+        int index=0;
+        for(Integer id: FakeData.commentItems.keySet()){
+            idList[index++] = id;
+        }
+        return idList;
     }
 
     public static ViewAction clickChildViewWithId(final int id) {

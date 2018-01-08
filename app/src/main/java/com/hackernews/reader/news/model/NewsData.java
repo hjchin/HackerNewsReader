@@ -1,4 +1,4 @@
-package com.hackernews.reader.data.news;
+package com.hackernews.reader.news.model;
 
 import com.hackernews.reader.data.HackerNewsApi;
 
@@ -25,7 +25,7 @@ public class NewsData implements NewsModel {
     private HackerNewsApi api;
     private Disposable disposable;
 
-    NewsData(HackerNewsApi api){
+    public NewsData(HackerNewsApi api){
         this.api = api;
     }
 
@@ -75,15 +75,5 @@ public class NewsData implements NewsModel {
         if(disposable!=null){
             disposable.dispose();
         }
-    }
-
-    @Override
-    public void disconnect() {
-        //do nothing
-    }
-
-    @Override
-    public void connect() {
-        //do nothing
     }
 }

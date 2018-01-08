@@ -5,7 +5,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.hackernews.reader.news.NewsActivity">
+        tools:context="com.hackernews.reader.news.view.NewsActivity">
         <include
             layout="@layout/loading_page"
             android:id="@+id/loading_page"/>

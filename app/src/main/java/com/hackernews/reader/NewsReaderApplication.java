@@ -4,7 +4,8 @@ import android.app.Application;
 
 import com.hackernews.reader.di.AppComponent;
 import com.hackernews.reader.di.DaggerAppComponent;
-import com.hackernews.reader.data.ProviderModule;
+import com.hackernews.reader.di.HttpClientModule;
+import com.hackernews.reader.di.ProviderModule;
 
 
 /**
@@ -21,6 +22,7 @@ public class NewsReaderApplication extends Application {
         appComponent = DaggerAppComponent
                 .builder()
                 .providerModule(new ProviderModule())
+                .httpClientModule(new HttpClientModule())
                 .build();
     }
 

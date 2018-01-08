@@ -30,4 +30,6 @@ ext{
     espressoVersion = "3.0.1"
     retrofitVersion = "2.3.0"
     daggerVersion = "2.11"
+    oktHttpVersion = "3.9.1"
+
 }

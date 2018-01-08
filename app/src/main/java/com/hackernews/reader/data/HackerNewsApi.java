@@ -1,7 +1,7 @@
 package com.hackernews.reader.data;
 
-import com.hackernews.reader.data.comment.CommentItem;
-import com.hackernews.reader.data.news.NewsItem;
+import com.hackernews.reader.comment.model.CommentItem;
+import com.hackernews.reader.news.model.NewsItem;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

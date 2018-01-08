@@ -6,8 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.hackernews.reader.R;
-import com.hackernews.reader.news.NewsAdapter;
-import com.hackernews.reader.data.news.NewsItem;
+import com.hackernews.reader.news.view.NewsAdapter;
+import com.hackernews.reader.news.model.NewsItem;
 
 import java.util.ArrayList;
 

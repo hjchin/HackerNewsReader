@@ -16,14 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name="com.hackernews.reader.news.NewsActivity">
+        <activity android:name="com.hackernews.reader.news.view.NewsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hackernews.reader.comment.CommentActivity" />
+        <activity android:name="com.hackernews.reader.comment.view.CommentActivity" />
     </application>
 
 </manifest>

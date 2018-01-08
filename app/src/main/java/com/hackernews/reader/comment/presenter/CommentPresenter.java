@@ -1,9 +1,10 @@
-package com.hackernews.reader.comment;
+package com.hackernews.reader.comment.presenter;
 
 import android.support.test.espresso.idling.CountingIdlingResource;
 
-import com.hackernews.reader.data.comment.CommentItem;
-import com.hackernews.reader.data.comment.CommentModel;
+import com.hackernews.reader.comment.view.CommentView;
+import com.hackernews.reader.comment.model.CommentItem;
+import com.hackernews.reader.comment.model.CommentModel;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,7 @@ public class CommentPresenter{
         return data.getList();
     }
 
-    public void loadComemnts(int[] commentIds){
+    public void loadComments(int[] commentIds){
         data.fill(commentIds);
         loadComments();
     }

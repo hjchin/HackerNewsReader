@@ -1,15 +1,13 @@
-package com.hackernews.reader.data.comment;
-
-import com.hackernews.reader.data.BaseModel;
+package com.hackernews.reader.comment.model;
 
 import java.util.ArrayList;
 
 /**
  * Created by HJ Chin on 30/11/2017.
+ *
  */
 
-@SuppressWarnings("ALL")
-public interface CommentModel extends BaseModel {
+public interface CommentModel{
 
     interface GetItemCallback{
         void onResponse(CommentItem item);

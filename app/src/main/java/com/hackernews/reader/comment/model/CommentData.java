@@ -1,4 +1,4 @@
-package com.hackernews.reader.data.comment;
+package com.hackernews.reader.comment.model;
 
 import com.hackernews.reader.data.HackerNewsApi;
 
@@ -24,7 +24,7 @@ public class CommentData implements CommentModel {
     private HackerNewsApi api;
     private Map<Integer, CommentItem> data = new LinkedHashMap<>();
 
-    CommentData(HackerNewsApi api){
+    public CommentData(HackerNewsApi api){
         this.api = api;
     }
 
@@ -42,16 +42,6 @@ public class CommentData implements CommentModel {
             item.id = id;
             data.put(item.id,item);
         }
-    }
-
-    @Override
-    public void disconnect() {
-
-    }
-
-    @Override
-    public void connect() {
-
     }
 
     public ArrayList<CommentItem> getList() {

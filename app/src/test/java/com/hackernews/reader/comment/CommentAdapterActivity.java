@@ -6,8 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.hackernews.reader.R;
-import com.hackernews.reader.comment.CommentAdapter;
-import com.hackernews.reader.data.comment.CommentItem;
+import com.hackernews.reader.comment.view.CommentAdapter;
+import com.hackernews.reader.comment.model.CommentItem;
 
 import java.util.ArrayList;
 

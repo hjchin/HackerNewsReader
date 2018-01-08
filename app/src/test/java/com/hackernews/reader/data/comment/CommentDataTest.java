@@ -1,5 +1,7 @@
 package com.hackernews.reader.data.comment;
 
+import com.hackernews.reader.comment.model.CommentData;
+import com.hackernews.reader.comment.model.CommentItem;
 import com.hackernews.reader.data.HackerNewsApi;
 
 import org.junit.Test;

@@ -5,7 +5,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.hackernews.reader.comment.CommentActivity">
+        tools:context="com.hackernews.reader.comment.view.CommentActivity">
         <include
             layout="@layout/loading_page"
             android:id="@+id/loading_page"/>

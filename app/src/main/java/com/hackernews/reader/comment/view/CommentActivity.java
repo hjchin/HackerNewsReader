@@ -1,4 +1,4 @@
-package com.hackernews.reader.comment;
+package com.hackernews.reader.comment.view;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -13,9 +13,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.hackernews.reader.NewsReaderApplication;
-import com.hackernews.reader.data.comment.CommentItem;
+import com.hackernews.reader.comment.presenter.CommentPresenter;
+import com.hackernews.reader.comment.model.CommentItem;
 import com.hackernews.reader.R;
-import com.hackernews.reader.data.comment.CommentModel;
+import com.hackernews.reader.comment.model.CommentModel;
 import com.hackernews.reader.databinding.ActivityCommentBinding;
 import com.hackernews.reader.util.UILoader;
 
@@ -63,7 +64,7 @@ public class CommentActivity extends AppCompatActivity implements
                 return;
             }
 
-            presenter.loadComemnts(commentIdList);
+            presenter.loadComments(commentIdList);
 
         }else{
             ArrayList<Parcelable> retrieved = savedInstanceState.getParcelableArrayList(COMMENT_ITEM);

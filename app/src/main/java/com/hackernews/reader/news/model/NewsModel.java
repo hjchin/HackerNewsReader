@@ -1,6 +1,4 @@
-package com.hackernews.reader.data.news;
-
-import com.hackernews.reader.data.BaseModel;
+package com.hackernews.reader.news.model;
 
 import java.util.ArrayList;
 
@@ -9,7 +7,7 @@ import java.util.ArrayList;
  */
 
 @SuppressWarnings("ALL")
-public interface NewsModel extends BaseModel {
+public interface NewsModel{
 
     interface GetIdsCallback{
         void onResponse(ArrayList<NewsItem> newsItems);

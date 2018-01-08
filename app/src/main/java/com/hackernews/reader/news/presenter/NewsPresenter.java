@@ -1,11 +1,12 @@
-package com.hackernews.reader.news;
+package com.hackernews.reader.news.presenter;
 
 
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.util.Log;
 
-import com.hackernews.reader.data.news.NewsModel;
-import com.hackernews.reader.data.news.NewsItem;
+import com.hackernews.reader.news.model.NewsModel;
+import com.hackernews.reader.news.model.NewsItem;
+import com.hackernews.reader.news.view.NewsView;
 
 import java.util.ArrayList;
 
@@ -14,24 +15,24 @@ import java.util.ArrayList;
  *
  */
 
-class NewsPresenter{
+public class NewsPresenter{
 
     private final NewsView view;
     private final NewsModel model;
     private final CountingIdlingResource idlingResource;
     private boolean toDecrease = false;
 
-    NewsPresenter(NewsModel model, NewsView view, CountingIdlingResource idlingResource){
+    public NewsPresenter(NewsModel model, NewsView view, CountingIdlingResource idlingResource){
         this.model = model;
         this.view = view;
         this.idlingResource = idlingResource;
     }
 
-    ArrayList<NewsItem> getData(){
+    public ArrayList<NewsItem> getData(){
         return model.getImmutableList();
     }
 
-    void restoreState(ArrayList<NewsItem>  value){
+    public void restoreState(ArrayList<NewsItem>  value){
 
         idlingResource.increment();
         toDecrease = true;
@@ -48,7 +49,7 @@ class NewsPresenter{
         }
     }
 
-    void loadNews(){
+    public void loadNews(){
 
         view.showProgressBar();
 
@@ -78,10 +79,8 @@ class NewsPresenter{
         });
     }
 
-    void refreshNews(){
+    public void refreshNews(){
         model.cancel();
         loadNews();
     }
-
-
 }

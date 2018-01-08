@@ -1,4 +1,4 @@
-package com.hackernews.reader.data.news;
+package com.hackernews.reader.news.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,7 +10,7 @@ import com.hackernews.reader.data.Item;
  *
  */
 
-public class NewsItem extends Item implements Parcelable {
+public class NewsItem implements Item,Parcelable {
     public String by;
     public int descendants;
     public int id;

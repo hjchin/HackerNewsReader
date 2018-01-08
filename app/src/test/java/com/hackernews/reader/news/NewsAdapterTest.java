@@ -1,6 +1,6 @@
 package com.hackernews.reader.news;
 
-import com.hackernews.reader.data.news.NewsItem;
+import com.hackernews.reader.news.model.NewsItem;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

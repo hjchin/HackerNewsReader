@@ -3,6 +3,8 @@ package com.hackernews.reader.data.comment;
 import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 
+import com.hackernews.reader.comment.model.CommentItem;
+
 
 public class CommentItemActivity extends AppCompatActivity {
 

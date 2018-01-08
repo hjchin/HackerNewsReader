@@ -5,6 +5,8 @@ package com.hackernews.reader.data.news;
  */
 
 
+import com.hackernews.reader.news.model.NewsItem;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;

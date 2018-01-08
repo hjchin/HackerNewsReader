@@ -1,4 +1,4 @@
-package com.hackernews.reader.comment;
+package com.hackernews.reader.comment.view;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hackernews.reader.data.comment.CommentItem;
+import com.hackernews.reader.comment.model.CommentItem;
 import com.hackernews.reader.R;
 import com.hackernews.reader.databinding.CommentItemBinding;
 import com.hackernews.reader.util.Util;
@@ -58,8 +58,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         CommentItem commentItem = data.get(position);
 
-        holder.itemView.findViewById(R.id.indicator).setVisibility(View.VISIBLE);
-
+        holder.binding.indicator.setVisibility(View.VISIBLE);
         holder.binding.by.setText(commentItem.by);
         holder.binding.time.setText(Util.getPrettyTime(commentItem.time));
 

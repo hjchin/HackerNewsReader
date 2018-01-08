@@ -5,6 +5,8 @@ package com.hackernews.reader.data.comment;
  */
 
 
+import com.hackernews.reader.comment.model.CommentItem;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;

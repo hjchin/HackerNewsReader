@@ -1,4 +1,4 @@
-package com.hackernews.reader.data.comment;
+package com.hackernews.reader.comment.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,7 +10,7 @@ import com.hackernews.reader.data.Item;
  */
 
 @SuppressWarnings("ALL")
-public class CommentItem extends Item implements Parcelable{
+public class CommentItem implements Item,Parcelable{
     public String by;
     public int id;
     public int[] kids;
